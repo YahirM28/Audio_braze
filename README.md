@@ -385,3 +385,212 @@ function closeModal() {
 </body>
 </html>
 
+
+++++
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mensaje In-App</title>
+
+  <style>
+    body {
+      margin: 0;
+      background-color: rgba(0,0,0,0.7);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      font-family:sans-serif;
+    }
+
+    .inapp-container {
+      position: relative;
+      width: 345px;
+      height: 630px;
+      background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/69f8ab128b6e41008075c577/original.png?1777904398');
+      background-size: cover;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .close-button {
+      position:absolute;
+      top:5px;
+      right:5px;
+      border:none;
+      background:transparent;
+      font-size:22px;
+      cursor:pointer;
+      z-index:1000;
+    }
+
+    .trigger {
+      position:absolute;
+      width:120px;
+      cursor:pointer;
+    }
+
+    .trigger-1 { top:220px; left:20px; }
+    .trigger-2 { top:220px; right:20px; }
+    .trigger-3 { top:330px; left:20px; }
+    .trigger-4 { top:330px; right:20px; }
+    .trigger-5 { top:440px; left:110px; }
+
+    .overlay {
+      display:none;
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.5);
+      z-index:999;
+    }
+
+    .overlay.open { display:block; }
+
+    .modal {
+      width:80%;
+      max-width:350px;
+      margin:150px auto;
+      position:relative;
+    }
+
+    .close-btn {
+      position:absolute;
+      top:10px;
+      right:10px;
+      width:30px;
+      cursor:pointer;
+    }
+
+    .boton-descubre {
+      position:absolute;
+      bottom:20px;
+      left:50%;
+      transform:translateX(-50%);
+      width:220px;
+      height:50px;
+      background:#1677D8;
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:bold;
+      text-decoration:none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="inapp-container">
+
+<!-- X -->
+<button class="close-button"
+onclick="
+(function(){
+  var brazeBridge = window.brazeBridge || window.appboyBridge;
+  var INAPP_ID='inapp_prueba_martech';
+
+  brazeBridge?.logClick && brazeBridge.logClick('Close Message');
+
+  window.braze?.logCustomEvent && window.braze.logCustomEvent('Interaccion',{
+    inapp_id: INAPP_ID,
+    action:'dismiss-' + INAPP_ID
+  });
+
+  brazeBridge?.closeMessage && brazeBridge.closeMessage();
+})();
+">×</button>
+
+<!-- TRIGGERS -->
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8bf4526206c00b50d1569/original.png?1777909573" class="trigger trigger-1"
+onclick="(function(){var b=window.brazeBridge||window.appboyBridge;var id='inapp_prueba_martech';b?.logClick&&b.logClick('1');window.braze?.logCustomEvent&&window.braze.logCustomEvent('Interaccion',{inapp_id:id,action:'open_modal1-'+id});document.getElementById('popupOverlay1').classList.add('open');})();"/>
+
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8bf195720f5007de16280/original.png?1777909529" class="trigger trigger-2"
+onclick="(function(){var b=window.brazeBridge||window.appboyBridge;var id='inapp_prueba_martech';b?.logClick&&b.logClick('2');window.braze?.logCustomEvent&&window.braze.logCustomEvent('Interaccion',{inapp_id:id,action:'open_modal2-'+id});document.getElementById('popupOverlay2').classList.add('open');})();"/>
+
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8be7d21565d007d2d3ad3/original.png?1777909373" class="trigger trigger-3"
+onclick="(function(){var b=window.brazeBridge||window.appboyBridge;var id='inapp_prueba_martech';b?.logClick&&b.logClick('3');window.braze?.logCustomEvent&&window.braze.logCustomEvent('Interaccion',{inapp_id:id,action:'open_modal3-'+id});document.getElementById('popupOverlay3').classList.add('open');})();"/>
+
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8bee1a1cacf007f407996/original.png?1777909472" class="trigger trigger-4"
+onclick="(function(){var b=window.brazeBridge||window.appboyBridge;var id='inapp_prueba_martech';b?.logClick&&b.logClick('4');window.braze?.logCustomEvent&&window.braze.logCustomEvent('Interaccion',{inapp_id:id,action:'open_modal4-'+id});document.getElementById('popupOverlay4').classList.add('open');})();"/>
+
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8be42577aa1007dc03e99/original.png?1777909313" class="trigger trigger-5"
+onclick="(function(){var b=window.brazeBridge||window.appboyBridge;var id='inapp_prueba_martech';b?.logClick&&b.logClick('5');window.braze?.logCustomEvent&&window.braze.logCustomEvent('Interaccion',{inapp_id:id,action:'open_modal5-'+id});document.getElementById('popupOverlay5').classList.add('open');})();"/>
+
+<!-- MODALES -->
+<!-- Modal 1 -->
+<div class="overlay" id="popupOverlay1" onclick="if(event.target===this){this.classList.remove('open');}">
+<div class="modal" onclick="event.stopPropagation()">
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8b81bb41a31007dd6eed3/original.png?1777907735" style="width:100%">
+<img class="close-btn" src="https://braze-images.com/appboy/communication/assets/image_assets/images/6942de097bf958006374cb93/original.png?1765989897"
+onclick="document.getElementById('popupOverlay1').classList.remove('open')">
+</div>
+</div>
+
+<!-- Modal 2 -->
+<div class="overlay" id="popupOverlay2" onclick="if(event.target===this){this.classList.remove('open');}">
+<div class="modal" onclick="event.stopPropagation()">
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8b978e1a30a009856e6f5/original.png?1777908084" style="width:100%">
+<img class="close-btn" src="https://braze-images.com/appboy/communication/assets/image_assets/images/6942de097bf958006374cb93/original.png?1765989897"
+onclick="document.getElementById('popupOverlay2').classList.remove('open')">
+</div>
+</div>
+
+<!-- Modal 3 -->
+<div class="overlay" id="popupOverlay3" onclick="if(event.target===this){this.classList.remove('open');}">
+<div class="modal" onclick="event.stopPropagation()">
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8b9c53f47d0007ff901f0/original.png?1777908162" style="width:100%">
+<img class="close-btn" src="https://braze-images.com/appboy/communication/assets/image_assets/images/6942de097bf958006374cb93/original.png?1765989897"
+onclick="document.getElementById('popupOverlay3').classList.remove('open')">
+</div>
+</div>
+
+<!-- Modal 4 -->
+<div class="overlay" id="popupOverlay4" onclick="if(event.target===this){this.classList.remove('open');}">
+<div class="modal" onclick="event.stopPropagation()">
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8ba7fe852bd007ff291a4/original.png?1777908348" style="width:100%">
+<img class="close-btn" src="https://braze-images.com/appboy/communication/assets/image_assets/images/6942de097bf958006374cb93/original.png?1765989897"
+onclick="document.getElementById('popupOverlay4').classList.remove('open')">
+</div>
+</div>
+
+<!-- Modal 5 -->
+<div class="overlay" id="popupOverlay5" onclick="if(event.target===this){this.classList.remove('open');}">
+<div class="modal" onclick="event.stopPropagation()">
+<img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8bfc1a7922b0081367536/original.png?1777909693" style="width:100%">
+<img class="close-btn" src="https://braze-images.com/appboy/communication/assets/image_assets/images/6942de097bf958006374cb93/original.png?1765989897"
+onclick="document.getElementById('popupOverlay5').classList.remove('open')">
+</div>
+</div>
+
+<!-- CTA -->
+<a href="bgeneralprod://personal/transactions/recharges" class="boton-descubre"
+onclick="
+(function(){
+  var b = window.brazeBridge || window.appboyBridge;
+  var id='inapp_prueba_martech';
+
+  b?.logClick && b.logClick('0');
+
+  window.braze?.logCustomEvent && window.braze.logCustomEvent('Interaccion',{
+    inapp_id:id,
+    action:'cta_click-'+id
+  });
+
+  b?.closeMessage && b.closeMessage();
+})();
+">
+Recarga ya
+</a>
+
+</div>
+
+</body>
+</html>
+
