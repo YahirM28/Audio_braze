@@ -236,3 +236,152 @@ function closeModal() {
 
 </body>
 </html>
+----
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mensaje In-App</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+    .inapp-container {
+      position: relative;
+      width: 345px;
+      height: 630px;
+      background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/69f8ab128b6e41008075c577/original.png?1777904398');
+      background-size: cover;
+      background-position: center;
+      border-radius: 12px;
+      overflow: hidden;
+      color: white;
+    }
+
+    .boton-descubre {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 20px;
+      width: 220px;
+      height: 50px;
+      background-color: #1677D8;
+      color: #fff;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 10001;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    .overlay.open { display: block; }
+
+    .modal {
+      width: 80%;
+      max-width: 350px;
+      margin: 170px auto;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 5px;
+      right: 18px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="inapp-container">
+
+  <!-- Cerrar in-app -->
+  <button class="close-button"
+    onclick="
+      window.brazeBridge = window.brazeBridge || window.appboyBridge;
+
+      if (brazeBridge?.logClick) brazeBridge.logClick('Close Message');
+      if (window.braze?.logCustomEvent) {
+        braze.logCustomEvent('Interaccion', { action: 'dismiss' });
+      }
+      if (brazeBridge?.closeMessage) brazeBridge.closeMessage();
+    "
+  >X</button>
+
+  <!-- ================= CTA PRINCIPAL (FIX ANDROID) ================= -->
+  <a
+    href="bgeneralprod://personal/transactions/recharges"
+    class="boton-descubre"
+    onclick="
+      (function(anchor, e){
+        e.preventDefault();
+
+        window.brazeBridge = window.brazeBridge || window.appboyBridge;
+
+        var href = anchor.getAttribute('href');
+        var INAPP_ID='inapp_prueba_martech';
+
+        // ✅ tracking primero
+        if (brazeBridge?.logClick) {
+          brazeBridge.logClick('0');
+        }
+
+        if (window.braze?.logCustomEvent) {
+          braze.logCustomEvent('Interaccion', {
+            inapp_id: INAPP_ID,
+            action: 'cta_boton_base_click-' + INAPP_ID
+          });
+        }
+
+        // 🟡 delay corto para asegurar tracking
+        setTimeout(function(){
+          window.location.href = href;
+        }, 120);
+
+        // 🔵 cierre después
+        setTimeout(function(){
+          if (brazeBridge?.closeMessage) {
+            brazeBridge.closeMessage();
+          }
+        }, 400);
+
+      })(this, event);
+    "
+  >
+    Recarga ya
+  </a>
+
+</div>
+
+</body>
+</html>
+
