@@ -676,3 +676,25 @@ Recarga ya
 
   </div>
 </div>
+
+###
+<a
+  href="bgeneralprod://personal/transactions/recharges"
+  class="boton-descubre"
+  onclick="
+    brazeBridge.logClick('Recarga ya');
+
+    if(window.brazeBridge && typeof brazeBridge.logCustomEvent === 'function')
+    {
+      brazeBridge.logCustomEvent('Interaccion',
+      {
+        inapp_id: 'inapp_prueba_martech',
+        action: 'cta_recarga_click-inapp_prueba_martech'
+      });
+    }
+
+    brazeBridge.closeMessage();
+  "
+>
+  Recarga ya
+</a>
