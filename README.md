@@ -594,3 +594,85 @@ Recarga ya
 </body>
 </html>
 
+!!!!
+
+<!-- ====== TRIGGER 1 ====== -->
+<img
+  src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8bf4526206c00b50d1569/original.png?1777909573"
+  class="trigger trigger-1"
+  alt="Abrir Modal 1"
+  onclick="
+    window.brazeBridge = window.brazeBridge || window.appboyBridge || window.brazeBridge;
+
+    /* Click analytics */
+    if (window.brazeBridge && typeof brazeBridge.logClick === 'function') {
+      brazeBridge.logClick('1');
+    }
+
+    /* Custom event */
+    if (window.braze && typeof braze.logCustomEvent === 'function') {
+      braze.logCustomEvent('Interaccion', {
+        inapp_id: 'inapp_prueba_martech',
+        action: 'body_click-inapp_prueba_martech'
+      });
+    }
+
+    /* Open modal */
+    var ov = document.getElementById('popupOverlay1');
+
+    if (ov) {
+      ov.classList.add('open');
+    }
+  "
+/>
+
+<!-- ================== MODAL 1 ================== -->
+<div
+  class="overlay"
+  id="popupOverlay1"
+  onclick="
+    if (event.target === this) {
+
+      if (window.braze && typeof braze.logCustomEvent === 'function') {
+        braze.logCustomEvent('Interaccion', {
+          inapp_id: 'inapp_prueba_martech',
+          action: 'modal1_dismiss-inapp_prueba_martech',
+          reason: 'overlay_click'
+        });
+      }
+
+      this.classList.remove('open');
+    }
+  "
+>
+  <div class="modal" onclick="event.stopPropagation()">
+
+    <img
+      src="https://braze-images.com/appboy/communication/assets/image_assets/images/69f8b81bb41a31007dd6eed3/original.png?1777907735"
+      alt="Contenido Modal 1"
+      style="width:100%; height:60%; padding-left:10px; padding-bottom:10px;"
+    />
+
+    <!-- CLOSE BUTTON TEXTO -->
+    <button
+      class="close-btn"
+      onclick="
+        if (window.braze && typeof braze.logCustomEvent === 'function') {
+          braze.logCustomEvent('Interaccion', {
+            inapp_id: 'inapp_prueba_martech',
+            action: 'modal1_close-inapp_prueba_martech'
+          });
+        }
+
+        var ov = document.getElementById('popupOverlay1');
+
+        if (ov) {
+          ov.classList.remove('open');
+        }
+      "
+    >
+      X
+    </button>
+
+  </div>
+</div>
