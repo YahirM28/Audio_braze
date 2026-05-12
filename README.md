@@ -799,3 +799,181 @@ Recarga ya
     </td>
   </tr>
 </table>
+
++++
+```html
+<style type="text/css">
+  /* What it does: Remove spaces around the email design added by some email clients. */
+  /* Beware: It can remove the padding / margin and add a background color to the compose a reply window. */
+  html,
+  body {
+    margin: 0 auto !important;
+    padding: 0 !important;
+    height: 100% !important;
+    width: 100% !important;
+    background-color: #EBEEF4 !important;
+  }
+
+  /* What it does: Stops Outlook from adding extra spacing to tables. */
+  table,
+  td {
+    border-spacing: 0;
+    padding: 0;
+    mso-table-lspace: 0pt !important;
+    mso-table-rspace: 0pt !important;
+    mso-line-height-rule: exactly !important;
+  }
+
+  /* What it does: Replaces default bold style. */
+  th {
+    font-weight: normal;
+  }
+
+  /* What it does: Fixes webkit padding issue. */
+  table {
+    border-spacing: 0 !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    margin: 0 auto !important;
+  }
+
+  /* What it does: Prevents Windows 10 Mail from underlining links despite inline CSS. Styles for underlined links should be inline. */
+  a {
+    text-decoration: none !important;
+  }
+
+  /* What it does: Uses a better rendering method when resizing images in IE. */
+  img {
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+  }
+
+  /* What it does: A work-around for email clients meddling in triggered links. */
+  a[x-apple-data-detectors],
+  /* iOS */
+  .unstyle-auto-detected-links a,
+  .aBn {
+    border-bottom: 0 !important;
+    cursor: default !important;
+    color: inherit !important;
+    text-decoration: none !important;
+    font-size: inherit !important;
+    font-family: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+  }
+
+  .wrapper {
+    width: 100% !important;
+    table-layout: center !important;
+    background-color: #EBEEF4 !important;
+  }
+
+  .main {
+    background-color: #ffffff !important;
+    margin: 0 auto !important;
+    width: 100% !important;
+    max-width: 550px !important;
+    border-spacing: 0 !important;
+    font-family: 'Inter', sans-serif !important;
+  }
+
+  .two-columns {
+    text-align: center;
+    font-size: 0;
+    /* los elementos de las 2 columnas se estan comportando como un texto*/
+  }
+
+  .two-columns .column {
+    width: 100% !important;
+    max-width: 275px !important;
+    display: inline-block !important;
+    vertical-align: top !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 16px !important;
+  }
+
+  /* What it does: Hover styles for buttons */
+  .button-td,
+  .button-a {
+    transition: all 100ms ease-in;
+  }
+
+  .button-td-primary:hover,
+  .button-a-primary:hover {
+    background: #FF7900 !important;
+    border-color: #FF7900 !important;
+  }
+
+  .button-td-secondary:hover,
+  .button-a-secondary:hover {
+    background: #ffffff !important;
+    border-color: #1677D8 !important;
+  }
+
+  /* Extra small devices and tablet (phones, 600px and down)-(portrait tablets and large phones, 600px and up) */
+  @media only screen and (max-width: 600px) {
+    .two-columns .column {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+
+    .padding-mobile {
+      margin-top: 0px !important;
+      padding-top: 0px !important;
+    }
+  }
+
+  /* Large devices (laptops/desktops, 992px and up) */
+  @media only screen and (min-width: 601px) {
+    .padding-mobile {
+      padding-top: 0px !important;
+    }
+  }
+
+  /* Extra large devices (large laptops and desktops, 1200px and up) */
+  @media only screen and (min-width: 1200px) {
+    .padding-mobile {
+      padding-top: 0px !important;
+    }
+  }
+</style>
+
+<!-- FOOTER-->
+<!-- Email Footer : BEGIN -->
+<table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin: auto; background-color: #F7F9FC" class="main" width="100%">
+  <tbody>
+    <tr>
+      <td style="background-color: #F7F9FC; padding: 5px 40px;text-align: left;">
+        <br />
+        <a href="https://www.bgeneral.com/?utm_source=Logo_footer&utm_medium=email&utm_campaign=correos_2020&lid=u1ms5fkex1ma" target="_blank">
+          <img alt="Logo BG gris" src="https://us1-sharedresources-dashboardbeepluginuploads3buc-1uv5n1030xv7g.s3.amazonaws.com/images/W4R-R48-R95Z/BGfooter.png" style="display:block; color: #ffffff;width: 136px;max-width: 136px;" width="136" />
+        </a>
+      </td>
+    </tr>
+
+    <tr>
+      <td style="background-color: #F7F9FC;padding:5px 40px; font-family: 'Inter', sans-serif; color: #6F7583; text-align: justify; line-height:18px;">
+        <small>
+          Este correo ha sido enviado por Banco General a la dirección electrónica que mantenemos en nuestra base de datos. Por ser un correo masivo, te agradecemos no contestes a esta dirección. Si deseas darnos tu opinión del contenido de este correo, puedes escribirnos a
+          <a href="mailto:info@bgeneral.com" style="color: #0066CC;" target="_blank">info@bgeneral.com</a>.
+          <br />
+          <div style="line-height:16px; height:16px;">&nbsp;</div>
+          Al entregar tu información, declaras que has leído, entiendes y aceptas el tratamiento de tus datos conforme al Aviso de Privacidad de Banco General y subsidiarias, el cual se encuentra disponible y actualizado en el
+          <a href="https://www.bgeneral.com/personas/seguridad/?lid=kxqtksxmf6bd#tab-fede85291600681d96b" style="color: #0066CC;" target="_blank">sitio web</a>.
+        </small>
+        <br /><br />
+      </td>
+    </tr>
+
+    <td style="background-color: #F7F9FC;padding:5px 40px; font-family: 'Inter', sans-serif; color: #6F7583;text-align: center; line-height:18px;">
+      <small>
+        <a href="#" style="color: #555555;text-decoration: none;">Cancelar suscripción</a>
+      </small>
+    </td>
+  </tbody>
+</table>
+<!-- Email Footer : END -->
+<!-- FOOTER : END-->
+```
+
