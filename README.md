@@ -698,3 +698,104 @@ Recarga ya
 >
   Recarga ya
 </a>
+
+
+@@@@
+<style type="text/css">
+  body, table, td, p, a {
+    font-family: Arial, sans-serif !important;
+  }
+
+  table {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+  }
+
+  td {
+    mso-line-height-rule: exactly;
+  }
+</style>
+
+<table
+  role="presentation"
+  width="100%"
+  border="0"
+  cellspacing="0"
+  cellpadding="0"
+  align="center"
+  bgcolor="#F7F9FC"
+  style="background-color:#F7F9FC;"
+>
+  <tr>
+    <td align="center">
+
+      <table
+        role="presentation"
+        width="550"
+        border="0"
+        cellspacing="0"
+        cellpadding="0"
+        style="width:550px; max-width:550px; background:#F7F9FC;"
+      >
+
+        <!-- LOGO -->
+        <tr>
+          <td
+            style="padding:24px 40px 16px 40px;"
+          >
+            <img
+              src="https://us1-sharedresources-dashboardbeepluginuploads3buc-1uv5n1030xv7g.s3.amazonaws.com/images/W4R-R48-R95Z/BGfooter.png"
+              width="136"
+              alt="Banco General"
+              style="display:block; border:0;"
+            >
+          </td>
+        </tr>
+
+        <!-- TEXT -->
+        <tr>
+          <td
+            style="
+              padding:0 40px;
+              font-size:12px;
+              line-height:18px;
+              color:#6F7583;
+              text-align:justify;
+            "
+          >
+            Este correo ha sido enviado por Banco General...
+          </td>
+        </tr>
+
+        <!-- SPACER -->
+        <tr>
+          <td height="24" style="line-height:24px; font-size:24px;">
+            &nbsp;
+          </td>
+        </tr>
+
+        <!-- UNSUBSCRIBE -->
+        <tr>
+          <td
+            align="center"
+            style="
+              padding:0 40px 24px 40px;
+              font-size:12px;
+              line-height:18px;
+              color:#6F7583;
+            "
+          >
+            <a
+              href="#"
+              style="color:#555555; text-decoration:none;"
+            >
+              Cancelar suscripción
+            </a>
+          </td>
+        </tr>
+
+      </table>
+
+    </td>
+  </tr>
+</table>
