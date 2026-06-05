@@ -976,4 +976,147 @@ Recarga ya
 <!-- Email Footer : END -->
 <!-- FOOTER : END-->
 ```
+@@@@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+
+.calculadora{
+    position:absolute;
+    top:220px;
+    left:50%;
+    transform:translateX(-50%);
+    width:250px;
+}
+
+.fila{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.btn-plus{
+    width:35px;
+    height:35px;
+    cursor:pointer;
+}
+
+.resultado{
+    min-width:40px;
+    text-align:center;
+}
+
+.resultado-final{
+    position:absolute;
+    bottom:165px; /* ajustar según tu diseño */
+    left:50%;
+    transform:translateX(-50%);
+    width:120px;
+    height:50px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:28px;
+    font-weight:bold;
+    color:#1677D8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="calculadora">
+
+    <div class="fila">
+        <span>1 pt</span>
+
+        <img
+            src="https://cdn-icons-png.flaticon.com/512/748/748113.png"
+            class="btn-plus"
+            onclick="sumar(1)"
+        >
+
+        <span id="res1" class="resultado">0</span>
+    </div>
+
+    <div class="fila">
+        <span>2 pts</span>
+
+        <img
+            src="https://cdn-icons-png.flaticon.com/512/748/748113.png"
+            class="btn-plus"
+            onclick="sumar(2)"
+        >
+
+        <span id="res2" class="resultado">0</span>
+    </div>
+
+    <div class="fila">
+        <span>3 pts</span>
+
+        <img
+            src="https://cdn-icons-png.flaticon.com/512/748/748113.png"
+            class="btn-plus"
+            onclick="sumar(3)"
+        >
+
+        <span id="res3" class="resultado">0</span>
+    </div>
+
+</div>
+
+<div id="resultadoFinal" class="resultado-final">
+    0
+</div>
+
+<script>
+
+let cantidad1 = 0;
+let cantidad2 = 0;
+let cantidad3 = 0;
+
+function sumar(tipo){
+
+    if(tipo === 1){
+        cantidad1++;
+        document.getElementById("res1").innerHTML = cantidad1 * 1;
+    }
+
+    if(tipo === 2){
+        cantidad2++;
+        document.getElementById("res2").innerHTML = cantidad2 * 2;
+    }
+
+    if(tipo === 3){
+        cantidad3++;
+        document.getElementById("res3").innerHTML = cantidad3 * 3;
+    }
+
+    actualizarTotal();
+}
+
+function actualizarTotal(){
+
+    const total =
+        (cantidad1 * 1) +
+        (cantidad2 * 2) +
+        (cantidad3 * 3);
+
+    document.getElementById("resultadoFinal").innerHTML = total;
+}
+
+</script>
+
+</body>
+</html>
 
