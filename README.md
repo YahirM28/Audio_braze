@@ -1446,3 +1446,99 @@ function actualizarTotal(){
     document.getElementById("resultadoFinal").innerHTML = total;
 }
 </script>
+
+/////
+<!-- ========================================= -->
+<!-- 1. AGREGAR AL FINAL DEL <style> -->
+<!-- ========================================= -->
+
+.opcion {
+  border: 3px solid transparent;
+  border-radius: 12px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.opcion.seleccionada {
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+.cta-deshabilitado {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+<!-- ========================================= -->
+<!-- 2. REEMPLAZAR IMG_FLO -->
+<!-- ========================================= -->
+
+<img
+  src="https://braze-images.com/appboy/communication/assets/image_assets/images/69c44d1c7c3b750063f7ba93/original.png?1774472476"
+  alt="Ilustración"
+  class="img_flo opcion"
+  onclick="
+    seleccionarOpcion(this);
+
+    brazeBridge.logClick('body_clic_cta1');
+
+    brazeBridge.logCustomEvent('Interaccion',{
+      inapp_id:'TCACT-RENOSTCR-M-inapp_renosestrellas_202603_26',
+      action:'body_clic_cta1'
+    });
+  "
+>
+
+
+<!-- ========================================= -->
+<!-- 3. REEMPLAZAR IMG_FLO2 -->
+<!-- ========================================= -->
+
+<img
+  src="https://braze-images.com/appboy/communication/assets/image_assets/images/69c45a4c01c0790063c9907c/original.png?1774475851"
+  alt="Ilustración"
+  class="img_flo2 anim1 opcion"
+  onclick="
+    seleccionarOpcion(this);
+
+    brazeBridge.logClick('body_clic_cta2todo');
+
+    brazeBridge.logCustomEvent('Interaccion',{
+      inapp_id:'TCACT-RENOSTCR-M-inapp_renosestrellas_202603_26',
+      action:'body_clic_cta2todo'
+    });
+  "
+>
+
+
+<!-- ========================================= -->
+<!-- 4. MODIFICAR EL <a> DE IMG_FLOU -->
+<!-- ========================================= -->
+
+<a
+  href="bgeneralprod://personal/credit-card/renewal-form"
+  class="full-background cta-deshabilitado"
+  id="ctaFinal"
+>
+
+
+<!-- ========================================= -->
+<!-- 5. AGREGAR ANTES DE </body> -->
+<!-- ========================================= -->
+
+<script>
+
+function seleccionarOpcion(elemento) {
+
+  document.querySelectorAll('.opcion').forEach(op => {
+    op.classList.remove('seleccionada');
+  });
+
+  elemento.classList.add('seleccionada');
+
+  document.getElementById('ctaFinal')
+          .classList.remove('cta-deshabilitado');
+}
+
+</script>
