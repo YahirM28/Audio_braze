@@ -1749,3 +1749,36 @@ setTimeout(() => {
   window.location.href = "bgeneralprod://personal/transactions/recharges";
 
 }
+99
+setTimeout(() => {
+
+  const contenedor = document.getElementById("contenedor");
+
+  contenedor.innerHTML += `
+    <div id="cta2Container" style="
+      position:absolute;
+      bottom:15px;
+      width:100%;
+      display:flex;
+      justify-content:center;">
+      <button id="ctaBtn2" class="cta-btn">
+        Hazlo ahora
+      </button>
+    </div>
+  `;
+
+  document.getElementById("ctaBtn2").onclick = function() {
+
+    if(window.brazeBridge){
+      brazeBridge.logClick('1');
+      brazeBridge.logCustomEvent('Interaccion',{
+        inapp_id:'TXN-panapass-M-mix_propension nba_no trx_promo_202604_17-30',
+        action:'cta_hazloahora'
+      });
+    }
+
+    window.location.href = "bgeneralprod://personal/transactions/recharges";
+  };
+
+}, 3000);
+
