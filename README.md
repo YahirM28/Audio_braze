@@ -1689,3 +1689,63 @@ function handleClick() {
 
 </script>
 
+8282
+// CAMBIA EL ONCLICK DEL CTA PRINCIPAL A:
+onclick="brazeBridge.logClick('0');handleClick()"
+
+
+// DENTRO DE handleClick(), BUSCA ESTA LÍNEA:
+button.textContent = "¡Quiero recargar!";
+
+
+// Y DEBAJO AGREGA ESTO:
+
+setTimeout(() => {
+
+  const contenedor = document.getElementById("contenedor");
+
+  contenedor.innerHTML += `
+    <div style="
+      position:absolute;
+      bottom:15px;
+      width:100%;
+      display:flex;
+      justify-content:center;
+    ">
+      <button
+        id="ctaBtn2"
+        class="cta-btn"
+        onclick="
+          brazeBridge.logClick('1');
+          brazeBridge.logCustomEvent('Interaccion',{
+            inapp_id:'TXN-panapass-M-mix_propension nba_no trx_promo_202604_17-30',
+            action:'cta_hazloahora'
+          });
+          window.location.href='bgeneralprod://personal/transactions/recharges';
+        ">
+        Hazlo ahora
+      </button>
+    </div>
+  `;
+
+}, 3000);
+
+
+// Y REEMPLAZA EL ELSE COMPLETO POR ESTE:
+
+} else {
+
+  if (window.brazeBridge) {
+
+    brazeBridge.logClick('2');
+
+    brazeBridge.logCustomEvent('Interaccion', {
+      inapp_id: 'TXN-panapass-M-mix_propension nba_no trx_promo_202604_17-30',
+      action: 'cta_recargar'
+    });
+
+  }
+
+  window.location.href = "bgeneralprod://personal/transactions/recharges";
+
+}
