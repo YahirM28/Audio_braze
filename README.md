@@ -1542,3 +1542,150 @@ function seleccionarOpcion(elemento) {
 }
 
 </script>
+
+2828
+
+<!-- CTA -->
+<div class="cta-container">
+
+  <button class="cta-btn" id="ctaBtn"
+    onclick="brazeBridge.logClick('0');brazeBridge.logCustomEvent('Interaccion',{inapp_id:'TXN-panapass-M-mix_propension nba_no trx_promo_202604_17-30',action:'cta_principal'});handleClick();">
+    Descubre tu sorpresa
+  </button>
+
+  <button class="cta-btn" id="ctaBtn2"
+    style="display:none;"
+    onclick="brazeBridge.logClick('1');brazeBridge.logCustomEvent('Interaccion',{inapp_id:'TXN-panapass-M-mix_propension nba_no trx_promo_202604_17-30',action:'cta_secundario'});window.location.href='https://tusitio.com';">
+    Ver más detalles
+  </button>
+
+</div>
+
+<style>
+.cta-container {
+  position: absolute;
+  bottom: 58px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.show-btn {
+  animation: fadeInUp .8s ease forwards;
+}
+</style>
+
+<script>
+
+let step = 1;
+
+function handleClick() {
+
+  const image = document.getElementById("mainImage");
+  const button = document.getElementById("ctaBtn");
+
+  if (step === 1) {
+
+    if (window.brazeBridge) {
+
+      brazeBridge.logCustomEvent('Interaccion',{
+        inapp_id: 'TXN-panapass-M-mix_propension nba_no trx_promo_202604_17-30',
+        action: 'body_clic1'
+      });
+
+    }
+
+    setTimeout(() => {
+
+      const contenedor = document.getElementById("contenedor");
+
+      contenedor.innerHTML = `
+
+<div>  
+  <img
+    src="https://braze-images.com/appboy/communication/assets/image_assets/images/69a70a907a9974006339836f/original.png?1772554895"
+    alt="Ilustración"
+    class="img_flo7 anim1">
+</div>
+
+<div>  
+  <img
+    src="https://braze-images.com/appboy/communication/assets/image_assets/images/69a70a907a9974006339836f/original.png?1772554895"
+    alt="Ilustración"
+    class="img_flo8 anim1">
+</div>
+
+<div>  
+  <img
+    src="https://braze-images.com/appboy/communication/assets/image_assets/images/69a70a907a9974006339836f/original.png?1772554895"
+    alt="Ilustración"
+    class="img_flo9 anim1">
+</div>
+
+<div>  
+  <img
+    src="https://braze-images.com/appboy/communication/assets/image_assets/images/69a70a907a9974006339836f/original.png?1772554895"
+    alt="Ilustración"
+    class="img_flo4 anim1">
+</div>
+
+<div>  
+  <img
+    src="https://braze-images.com/appboy/communication/assets/image_assets/images/69a70a907a9974006339836f/original.png?1772554895"
+    alt="Ilustración"
+    class="img_flo5 anim1">
+</div>
+
+<div>  
+  <img
+    src="https://braze-images.com/appboy/communication/assets/image_assets/images/69a70a907a9974006339836f/original.png?1772554895"
+    alt="Ilustración"
+    class="img_flo6 anim1">
+</div>
+
+      `;
+
+    }, 2000);
+
+    image.src = "https://braze-images.com/appboy/communication/assets/image_assets/images/69e0f34d25f02100ade007de/original.gif?1776350029";
+
+    button.textContent = "¡Quiero recargar!";
+
+    const secondBtn = document.getElementById("ctaBtn2");
+
+    button.style.display = "none";
+    secondBtn.style.display = "none";
+
+    setTimeout(() => {
+      button.style.display = "block";
+      button.classList.add("show-btn");
+    }, 2000);
+
+    setTimeout(() => {
+      secondBtn.style.display = "block";
+      secondBtn.classList.add("show-btn");
+    }, 3000);
+
+    step = 2;
+
+  } else {
+
+    if (window.brazeBridge) {
+
+      brazeBridge.logCustomEvent('Interaccion',{
+        inapp_id: 'TXN-panapass-M-mix_propension nba_no trx_promo_202604_17-30',
+        action: 'body_clic2'
+      });
+
+    }
+
+    window.location.href = "bgeneralprod://personal/transactions/recharges";
+
+  }
+
+}
+
+</script>
+
