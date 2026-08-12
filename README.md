@@ -1782,3 +1782,572 @@ setTimeout(() => {
 
 }, 3000);
 
+
+2828
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensaje In-App</title>
+
+<style>
+
+body {
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.inapp-container {
+    position: relative;
+    width: 330px;
+    height: 600px;
+
+    background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/6a7b36df5371e80088e84731/original.png?1786459870');
+
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    overflow: hidden;
+    color: #1677D8;
+}
+
+
+/* BOTÓN CERRAR */
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    color: rgb(0, 0, 0);
+    background: transparent;
+
+    border: none;
+    border-radius: 50%;
+
+    width: 28px;
+    height: 28px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+    z-index: 100;
+
+    line-height: 28px;
+    text-align: center;
+}
+
+
+/* =========================
+   PESTAÑAS
+   ========================= */
+
+.tabs {
+    position: absolute;
+
+    top: 70px;
+    left: 15px;
+
+    width: 300px;
+
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+    z-index: 50;
+}
+
+
+/* BOTONES DE LAS PESTAÑAS */
+
+.tab-button {
+    flex: 1;
+
+    height: 38px;
+
+    border: none;
+    border-radius: 8px;
+
+    background-color: rgba(255,255,255,0.75);
+
+    color: #004c97;
+
+    font-size: 11px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+
+/* PESTAÑA ACTIVA */
+
+.tab-button.active {
+    background-color: #004c97;
+    color: white;
+}
+
+
+/* =========================
+   CONTENEDOR DE SECCIONES
+   ========================= */
+
+.secciones {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* TODAS LAS SECCIONES */
+
+.seccion {
+    display: none;
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* SECCIÓN ACTIVA */
+
+.seccion.active {
+    display: block;
+}
+
+
+/* =========================
+   IMÁGENES
+   ========================= */
+
+.imagen-seccion {
+    position: absolute;
+
+    width: 85%;
+    height: 55px;
+
+    right: 25px;
+
+    object-fit: contain;
+
+    cursor: pointer;
+}
+
+
+/* POSICIONES */
+
+.img-servicios {
+    bottom: 340px;
+}
+
+.img-recargas {
+    bottom: 270px;
+}
+
+.img-pagos {
+    bottom: 202px;
+}
+
+.img-otros {
+    bottom: 135px;
+}
+
+
+/* =========================
+   TEXTO
+   ========================= */
+
+.Texto-abajo {
+    position: absolute;
+
+    bottom: 120px;
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    color: #ffffff;
+
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* =========================
+   ANIMACIÓN
+   ========================= */
+
+@keyframes money {
+
+    0% {
+        opacity: 0;
+        transform: translateY(-380px);
+    }
+
+    7% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(1000px);
+    }
+}
+
+
+.anim1 {
+    animation: money 20s ease-in forwards infinite;
+}
+
+
+/* =========================
+   ANIMACIÓN BOTONES
+   ========================= */
+
+@keyframes bounceInOut {
+
+    0% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+
+}
+
+
+.anim7 {
+    animation: bounceInOut 1.0s infinite;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="inapp-container">
+
+
+    <!-- =========================
+         BOTÓN CERRAR
+         ========================= -->
+
+    <button
+        class="close-button"
+        onclick='
+            brazeBridge.logClick("Close Message");
+            brazeBridge.closeMessage();
+        '>
+        X
+    </button>
+
+
+
+    <!-- =========================
+         PESTAÑAS
+         ========================= -->
+
+    <div class="tabs">
+
+        <button
+            class="tab-button active"
+            onclick="mostrarSeccion('servicios', this)">
+            Servicios
+        </button>
+
+        <button
+            class="tab-button"
+            onclick="mostrarSeccion('recargas', this)">
+            Recargas
+        </button>
+
+        <button
+            class="tab-button"
+            onclick="mostrarSeccion('pagos', this)">
+            Pagos
+        </button>
+
+        <button
+            class="tab-button"
+            onclick="mostrarSeccion('otros', this)">
+            Otros
+        </button>
+
+    </div>
+
+
+
+    <!-- =========================
+         SECCIONES
+         ========================= -->
+
+    <div class="secciones">
+
+
+
+        <!-- =========================
+             SERVICIOS
+             ========================= -->
+
+        <div
+            id="servicios"
+            class="seccion active">
+
+            <a
+                href="bgeneralprod://personal/transactions/payment">
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7b37d881f9f7008694f97e/original.png?1786460119"
+
+                    alt="Servicios"
+
+                    class="imagen-seccion img-servicios"
+
+                    onclick="
+                        brazeBridge.logClick('0');
+
+                        brazeBridge.logCustomEvent(
+                            'Interaccion',
+                            {
+                                inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                                action: 'body_clic_cta1'
+                            }
+                        );
+                    "
+                >
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =========================
+             RECARGAS
+             ========================= -->
+
+        <div
+            id="recargas"
+            class="seccion">
+
+            <a
+                href="bgeneralprod://personal/transactions/recharges">
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7b383a4225d5008ac8a9d9/original.png?1786460217"
+
+                    alt="Recargas"
+
+                    class="imagen-seccion img-recargas"
+
+                    onclick="
+                        brazeBridge.logClick('1');
+
+                        brazeBridge.logCustomEvent(
+                            'Interaccion',
+                            {
+                                inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                                action: 'body_clic_cta2'
+                            }
+                        );
+                    "
+                >
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =========================
+             PAGOS
+             ========================= -->
+
+        <div
+            id="pagos"
+            class="seccion">
+
+            <a
+                href="bgeneralprod://personal/transactions/recharges">
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7b38a8e1eaff008816b13e/original.png?1786460328"
+
+                    alt="Pagos"
+
+                    class="imagen-seccion img-pagos"
+
+                    onclick="
+                        brazeBridge.logClick('2');
+
+                        brazeBridge.logCustomEvent(
+                            'Interaccion',
+                            {
+                                inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                                action: 'body_clic_cta3'
+                            }
+                        );
+                    "
+                >
+
+            </a>
+
+        </div>
+
+
+
+        <!-- =========================
+             OTROS
+             ========================= -->
+
+        <div
+            id="otros"
+            class="seccion">
+
+            <a
+                href="bgeneralprod://authentication/ypmodule-access">
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7b38dea2e4b00088dc216b/original.png?1786460382"
+
+                    alt="Otros"
+
+                    class="imagen-seccion img-otros"
+
+                    onclick="
+                        brazeBridge.logClick('3');
+
+                        brazeBridge.logCustomEvent(
+                            'Interaccion',
+                            {
+                                inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                                action: 'body_clic_cta4'
+                            }
+                        );
+                    "
+                >
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- =========================
+     JAVASCRIPT
+     ========================= -->
+
+<script>
+
+function mostrarSeccion(nombre, boton) {
+
+    /*
+     * Ocultar todas las secciones
+     */
+
+    var secciones = document.querySelectorAll('.seccion');
+
+    secciones.forEach(function(seccion) {
+
+        seccion.classList.remove('active');
+
+    });
+
+
+
+    /*
+     * Quitar estado activo
+     * de todos los botones
+     */
+
+    var botones = document.querySelectorAll('.tab-button');
+
+    botones.forEach(function(btn) {
+
+        btn.classList.remove('active');
+
+    });
+
+
+
+    /*
+     * Mostrar la sección seleccionada
+     */
+
+    var seccionSeleccionada =
+        document.getElementById(nombre);
+
+    if (seccionSeleccionada) {
+
+        seccionSeleccionada.classList.add('active');
+
+    }
+
+
+
+    /*
+     * Activar el botón seleccionado
+     */
+
+    if (boton) {
+
+        boton.classList.add('active');
+
+    }
+
+}
+
+</script>
+
+
+</body>
+</html>
