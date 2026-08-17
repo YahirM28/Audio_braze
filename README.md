@@ -2560,3 +2560,74 @@ function mostrarSeccion(nombre, boton) {
     </button>
 
 </div>
+
+/* =========================
+   IMÁGENES DE LAS SECCIONES
+   ========================= */
+
+.imagen-seccion,
+.imagen-seccion2,
+.imagen-seccion3,
+.imagen-seccion4 {
+    position: absolute;
+
+    width: 85%;
+    height: 80px;
+
+    object-fit: contain;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+/* POSICIÓN DE LAS IMÁGENES */
+
+.img-servicios {
+    bottom: 340px;
+    left: 7.5%;
+}
+
+.img-recargas {
+    bottom: 270px;
+    left: 7.5%;
+}
+
+.img-pagos {
+    bottom: 202px;
+    left: 7.5%;
+}
+
+.img-otros {
+    bottom: 135px;
+    left: 7.5%;
+}
+
+
+.secciones {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 5;
+}
+
+.seccion {
+    display: none;
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+.seccion.active {
+    display: block;
+}
