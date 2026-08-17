@@ -2356,3 +2356,207 @@ function mostrarSeccion(nombre, boton) {
 
 ˢᵐ
 ℠
+
+08 17
+/* =========================
+   PESTAÑAS COMO IMÁGENES
+   ========================= */
+
+.tabs {
+    position: absolute;
+    top: 70px;
+    left: 15px;
+
+    width: 300px;
+
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+    z-index: 50;
+}
+
+/* BOTÓN DE CADA PESTAÑA */
+.tab-button {
+    position: relative;
+
+    flex: 1;
+    height: 38px;
+
+    padding: 0;
+    border: none;
+    border-radius: 8px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: all 0.2s ease;
+}
+
+/* IMAGEN DE LA PESTAÑA */
+.tab-button img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+}
+
+/* OVERLAY DE LA PESTAÑA */
+.tab-button .tab-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 76, 151, 0.55);
+
+    border-radius: 8px;
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.2s ease;
+}
+
+/* OVERLAY DE LA PESTAÑA ACTIVA */
+.tab-button.active .tab-overlay {
+    opacity: 1;
+}
+
+<div class="tabs">
+
+    <!-- =========================
+         EL MACHETAZO
+         ========================= -->
+
+    <button
+        class="tab-button active"
+        onclick="
+            brazeBridge.logClick('0');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta1'
+                }
+            );
+
+            mostrarSeccion('servicios', this);
+        "
+    >
+
+        <img
+            src="URL_IMAGEN_MACHETAZO"
+            alt="El Machetazo"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+    <!-- =========================
+         BARRIO PIZZA
+         ========================= -->
+
+    <button
+        class="tab-button"
+        onclick="
+            brazeBridge.logClick('1');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta2'
+                }
+            );
+
+            mostrarSeccion('recargas', this);
+        "
+    >
+
+        <img
+            src="URL_IMAGEN_BARRIO_PIZZA"
+            alt="Barrio Pizza"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+    <!-- =========================
+         DOIT CENTER
+         ========================= -->
+
+    <button
+        class="tab-button"
+        onclick="
+            brazeBridge.logClick('2');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta3'
+                }
+            );
+
+            mostrarSeccion('pagos', this);
+        "
+    >
+
+        <img
+            src="URL_IMAGEN_DOIT_CENTER"
+            alt="Doit Center"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+    <!-- =========================
+         OTROS
+         ========================= -->
+
+    <button
+        class="tab-button"
+        onclick="
+            brazeBridge.logClick('3');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta4'
+                }
+            );
+
+            mostrarSeccion('otros', this);
+        "
+    >
+
+        <img
+            src="URL_IMAGEN_OTROS"
+            alt="Otros"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+</div>
