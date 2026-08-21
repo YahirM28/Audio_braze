@@ -5484,3 +5484,1231 @@ function mostrarSeccion(nombre, boton) {
 
 </html>
 
+2108 - 2
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mensaje In-App</title>
+
+<style>
+
+/* =========================
+   BODY
+   ========================= */
+
+a.full-background {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+   ========================= */
+
+.inapp-container {
+    position: relative;
+
+    width: 330px;
+    height: 600px;
+
+    background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/6a8878e12360a70088b823d6/original.png?1787328736');
+
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    overflow: hidden;
+
+    color: #1677D8;
+}
+
+
+/* =========================
+   BOTÓN CERRAR
+   ========================= */
+
+.close-button {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    color: rgb(0, 0, 0);
+
+    border: none;
+    border-radius: 50%;
+
+    width: 28px;
+    height: 28px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    line-height: 28px;
+    text-align: center;
+
+    text-decoration: none;
+
+    z-index: 100;
+}
+
+
+/* =========================
+   IMAGEN ILUSTRATIVA INICIAL
+   ========================= */
+
+.imagen-inicial {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 20;
+
+    pointer-events: none;
+
+    opacity: 1;
+
+    transition: opacity 0.2s ease;
+}
+
+
+/* Imagen que aparecerá inicialmente */
+
+.imagen-inicial img {
+    width: 85%;
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+/* Cuando se selecciona una pestaña,
+   desaparece la imagen inicial */
+
+.imagen-inicial.oculta {
+    opacity: 0;
+    visibility: hidden;
+}
+
+
+/* =========================
+   PESTAÑAS SUPERIORES
+   ========================= */
+
+.tabs {
+    position: absolute;
+
+    top: 170px;
+    left: 40px;
+
+    width: 250px;
+
+    display: grid;
+
+    grid-template-columns: repeat(6, 1fr);
+
+    gap: 8px;
+
+    z-index: 50;
+}
+
+
+/* =========================
+   POSICIÓN 3 PESTAÑAS ARRIBA
+   ========================= */
+
+.tab-button:nth-child(1) {
+    grid-column: 1 / span 2;
+}
+
+.tab-button:nth-child(2) {
+    grid-column: 3 / span 2;
+}
+
+.tab-button:nth-child(3) {
+    grid-column: 5 / span 2;
+}
+
+
+/* =========================
+   POSICIÓN 2 PESTAÑAS ABAJO
+   ========================= */
+
+.tab-button:nth-child(4) {
+    grid-column: 2 / span 2;
+}
+
+.tab-button:nth-child(5) {
+    grid-column: 4 / span 2;
+}
+
+
+/* =========================
+   BOTÓN DE CADA PESTAÑA
+   ========================= */
+
+.tab-button {
+    position: relative;
+
+    width: 85px;
+    height: 68px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: all 0.2s ease;
+}
+
+
+/* =========================
+   IMAGEN DE LA PESTAÑA
+   ========================= */
+
+.tab-button img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+}
+
+
+/* =========================
+   OVERLAY
+   ========================= */
+
+/* Las pestañas NO activas tienen overlay */
+
+.tab-button .tab-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 76, 151, 0.55);
+
+    border-radius: 8px;
+
+    opacity: 1;
+
+    pointer-events: none;
+
+    transition: opacity 0.2s ease;
+}
+
+
+/* =========================
+   PESTAÑA ACTIVA
+   ========================= */
+
+/* La pestaña activa NO tiene overlay */
+
+.tab-button.active {
+    border-radius: 8px;
+
+    box-sizing: border-box;
+
+    box-shadow: 0 0 18px #004C97;
+}
+
+
+.tab-button.active .tab-overlay {
+    opacity: 0;
+}
+
+
+/* =========================
+   CONTENEDOR DE SECCIONES
+   ========================= */
+
+.secciones {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 5;
+}
+
+
+/* =========================
+   TODAS LAS SECCIONES
+   ========================= */
+
+.seccion {
+    display: none;
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================
+   SECCIÓN ACTIVA
+   ========================= */
+
+.seccion.active {
+    display: block;
+}
+
+
+/* =========================
+   IMÁGENES DE LAS SECCIONES
+   ========================= */
+
+.imagen-seccion {
+    position: absolute;
+
+    width: 85%;
+    height: 80px;
+
+    object-fit: contain;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+
+/* =========================
+   PRIMERA IMAGEN
+   ========================= */
+
+.imagen-1 {
+    position: absolute;
+
+    width: 40%;
+
+    bottom: 315px;
+
+    right: 35px;
+}
+
+
+/* =========================
+   SEGUNDA IMAGEN
+   ========================= */
+
+.imagen-2 {
+    position: absolute;
+
+    width: 40%;
+
+    bottom: 187px;
+
+    right: 35px;
+}
+
+
+/* =========================
+   TERCERA IMAGEN
+   ========================= */
+
+.imagen-3 {
+    position: absolute;
+
+    width: 40%;
+
+    bottom: 60px;
+
+    right: 35px;
+}
+
+
+/* =========================
+   TEXTO
+   ========================= */
+
+.Texto-abajo {
+    position: absolute;
+
+    bottom: 120px;
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    color: #ffffff;
+
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* =========================
+   IMG FLOU
+   ========================= */
+
+.img_flou {
+
+    position: absolute;
+
+    bottom: 40px;
+
+    width: 70%;
+
+    right: 46px;
+
+    height: 41px;
+
+    overflow: visible;
+}
+
+
+/* =========================
+   ANIMACIÓN MONEY
+   ========================= */
+
+@keyframes money {
+
+    0% {
+        opacity: 0;
+        transform: translateY(-380px);
+    }
+
+    7% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(1000px);
+    }
+}
+
+
+/* =========================
+   ANIMACIÓN BOTONES
+   ========================= */
+
+@keyframes bounceInOut {
+
+    0% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+
+.anim7 {
+    animation: bounceInOut 1.0s infinite;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="inapp-container">
+
+
+<!-- =========================
+     BOTÓN CERRAR
+     ========================= -->
+
+<button
+    class="close-button"
+
+    onclick="
+        brazeBridge.logClick('Close Message');
+        brazeBridge.closeMessage();
+    "
+>
+    X
+</button>
+
+
+<!-- =========================
+     IMAGEN ILUSTRATIVA INICIAL
+     ========================= -->
+
+<div class="imagen-inicial" id="imagenInicial">
+
+    <!--
+    PON AQUÍ LA URL DE TU IMAGEN ILUSTRATIVA
+
+    Ejemplo:
+
+    src="https://braze-images.com/....png"
+
+    -->
+
+    <img
+        src=""
+        alt="Imagen ilustrativa"
+    >
+
+</div>
+
+
+<!-- =========================
+     PESTAÑAS SUPERIORES
+     ========================= -->
+
+<div class="tabs">
+
+
+<!-- =========================
+     PESTAÑA 1
+     ========================= -->
+
+<button
+    class="tab-button"
+
+    onclick="
+        brazeBridge.logClick('0');
+
+        brazeBridge.logCustomEvent(
+            'Interaccion',
+            {
+                inapp_id: 'TXNJ-afiliacion-M-mix_bienvenida canal digital-202608_17',
+                action: 'body_clic_cta1'
+            }
+        );
+
+        mostrarSeccion('servicios', this);
+    "
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887955d9e5ca00883d9eda/original.png?1787328853"
+
+        alt="autorizar"
+    >
+
+    <span class="tab-overlay"></span>
+
+</button>
+
+
+<!-- =========================
+     PESTAÑA 2
+     ========================= -->
+
+<button
+    class="tab-button"
+
+    onclick="
+        brazeBridge.logClick('1');
+
+        brazeBridge.logCustomEvent(
+            'Interaccion',
+            {
+                inapp_id: 'TXNJ-afiliacion-M-mix_bienvenida canal digital-202608_17',
+                action: 'body_clic_cta2'
+            }
+        );
+
+        mostrarSeccion('recargas', this);
+    "
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88797cc642d90088db4f74/original.png?1787328892"
+
+        alt="entre_cuentas"
+    >
+
+    <span class="tab-overlay"></span>
+
+</button>
+
+
+<!-- =========================
+     PESTAÑA 3
+     ========================= -->
+
+<button
+    class="tab-button"
+
+    onclick="
+        brazeBridge.logClick('2');
+
+        brazeBridge.logCustomEvent(
+            'Interaccion',
+            {
+                inapp_id: 'TXNJ-afiliacion-M-mix_bienvenida canal digital-202608_17',
+                action: 'body_clic_cta3'
+            }
+        );
+
+        mostrarSeccion('pagos', this);
+    "
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8879bc9090fe0088393369/original.png?1787328956"
+
+        alt="a_terceros"
+    >
+
+    <span class="tab-overlay"></span>
+
+</button>
+
+
+<!-- =========================
+     PESTAÑA 4
+     ========================= -->
+
+<button
+    class="tab-button"
+
+    onclick="
+        brazeBridge.logClick('3');
+
+        brazeBridge.logCustomEvent(
+            'Interaccion',
+            {
+                inapp_id: 'TXNJ-afiliacion-M-mix_bienvenida canal digital-202608_17',
+                action: 'body_clic_cta4'
+            }
+        );
+
+        mostrarSeccion('otros', this);
+    "
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8879e5d692900088def13c/original.png?1787328997"
+
+        alt="Otros"
+    >
+
+    <span class="tab-overlay"></span>
+
+</button>
+
+
+<!-- =========================
+     PESTAÑA 5
+     ========================= -->
+
+<button
+    class="tab-button"
+
+    onclick="
+        brazeBridge.logClick('4');
+
+        brazeBridge.logCustomEvent(
+            'Interaccion',
+            {
+                inapp_id: 'TXNJ-afiliacion-M-mix_bienvenida canal digital-202608_17',
+                action: 'body_clic_cta5'
+            }
+        );
+
+        mostrarSeccion('otros2', this);
+    "
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887a931024b400a2df27b1/original.png?1787329171"
+
+        alt="Otros"
+    >
+
+    <span class="tab-overlay"></span>
+
+</button>
+
+
+</div>
+
+
+<!-- =========================
+     SECCIONES
+     ========================= -->
+
+<div class="secciones">
+
+
+<!-- =========================
+     SERVICIOS
+     ========================= -->
+
+<div
+    id="servicios"
+    class="seccion"
+>
+
+
+<!-- PRIMERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887b2a3cc1d000881b148f/original.png?1787329322"
+
+        alt="Servicios"
+
+        class="imagen-1"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+<!-- SEGUNDA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887bce66931b008a8ed843/original.png?1787329485"
+
+        alt="Servicios"
+
+        class="imagen-2"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+<!-- TERCERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887cdad9e5ca00883db540/original.png?1787329753"
+
+        alt="Servicios"
+
+        class="imagen-3"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+</div>
+
+
+<!-- =========================
+     RECARGAS
+     ========================= -->
+
+<div
+    id="recargas"
+    class="seccion"
+>
+
+
+<!-- PRIMERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887e835ae9d0008663384d/original.png?1787330178"
+
+        alt="Servicios"
+
+        class="imagen-1"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+<!-- SEGUNDA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887e10c642d90088db6a7a/original.png?1787330063"
+
+        alt="Servicios"
+
+        class="imagen-2"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+<!-- TERCERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887da8af01fd0088904216/original.png?1787329959"
+
+        alt="Servicios"
+
+        class="imagen-3"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+</div>
+
+
+<!-- =========================
+     PAGOS
+     ========================= -->
+
+<div
+    id="pagos"
+    class="seccion"
+>
+
+
+<!-- PRIMERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8881700105d90088bc3450/original.png?1787330928"
+
+        alt="Servicios"
+
+        class="imagen-1"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+<!-- SEGUNDA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8881a3d6929000a3decb61/original.png?1787330978"
+
+        alt="Servicios"
+
+        class="imagen-2"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+<!-- TERCERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8881d3ea267f00a3c30e33/original.png?1787331026"
+
+        alt="Servicios"
+
+        class="imagen-3"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+</div>
+
+
+<!-- =========================
+     OTROS
+     ========================= -->
+
+<div
+    id="otros"
+    class="seccion"
+>
+
+
+<!-- PRIMERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a888203ea267f0088c351d0/original.png?1787331074"
+
+        alt="Servicios"
+
+        class="imagen-1"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+</div>
+
+
+<!-- =========================
+     OTROS 2
+     ========================= -->
+
+<div
+    id="otros2"
+    class="seccion"
+>
+
+
+<!-- PRIMERA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88825bfd42cc0088aeb45d/original.png?1787331162"
+
+        alt="Servicios"
+
+        class="imagen-1"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+<!-- SEGUNDA IMAGEN -->
+
+<a
+    href="bgeneralprod://personal/transactions/recharges"
+>
+
+    <img
+        src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88828afd42cc0088aeb807/original.png?1787331209"
+
+        alt="Servicios"
+
+        class="imagen-2"
+
+        onclick="
+            brazeBridge.logClick('');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: '',
+                    action: ''
+                }
+            );
+        "
+    >
+
+</a>
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT
+     ========================= -->
+
+<script>
+
+function mostrarSeccion(nombre, boton) {
+
+
+    /* =========================
+       OCULTAR TODAS LAS SECCIONES
+       ========================= */
+
+    var secciones =
+        document.querySelectorAll('.seccion');
+
+    secciones.forEach(function(seccion) {
+
+        seccion.classList.remove('active');
+
+    });
+
+
+    /* =========================
+       QUITAR ACTIVE DE TODOS
+       ========================= */
+
+    var botones =
+        document.querySelectorAll('.tab-button');
+
+    botones.forEach(function(btn) {
+
+        btn.classList.remove('active');
+
+    });
+
+
+    /* =========================
+       MOSTRAR SECCIÓN
+       ========================= */
+
+    var seccionSeleccionada =
+        document.getElementById(nombre);
+
+    if (seccionSeleccionada) {
+
+        seccionSeleccionada.classList.add('active');
+
+    }
+
+
+    /* =========================
+       ACTIVAR PESTAÑA
+       ========================= */
+
+    if (boton) {
+
+        boton.classList.add('active');
+
+    }
+
+
+    /* =========================
+       OCULTAR IMAGEN INICIAL
+       ========================= */
+
+    var imagenInicial =
+        document.getElementById('imagenInicial');
+
+    if (imagenInicial) {
+
+        imagenInicial.classList.add('oculta');
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
+
