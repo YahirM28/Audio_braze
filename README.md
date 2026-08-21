@@ -4469,3 +4469,1018 @@ function mostrarSeccion(nombre, boton) {
 </body>
 
 </html>
+
+2108
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mensaje In-App</title>
+
+<style>
+
+/* =========================
+   BODY
+   ========================= */
+
+body {
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 100vh;
+
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+   ========================= */
+
+.inapp-container {
+    position: relative;
+
+    width: 330px;
+    height: 600px;
+
+    background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/6a833de868c06600863a4c85/original.png?1786985957');
+
+    background-size: cover;
+    background-position: center;
+
+    border-radius: 8px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    overflow: hidden;
+
+    color: #1677D8;
+}
+
+
+/* =========================
+   BOTÓN CERRAR
+   ========================= */
+
+.close-button {
+    position: absolute;
+
+    top: 12px;
+    right: 12px;
+
+    color: rgb(0, 0, 0);
+
+    border: none;
+    border-radius: 50%;
+
+    width: 28px;
+    height: 28px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    line-height: 28px;
+    text-align: center;
+
+    text-decoration: none;
+
+    z-index: 100;
+}
+
+
+/* =========================
+   PESTAÑAS
+   ========================= */
+
+.tabs {
+    position: absolute;
+
+    top: 70px;
+    left: 15px;
+
+    width: 300px;
+
+    display: grid;
+
+    grid-template-columns: repeat(6, 1fr);
+
+    gap: 5px;
+
+    z-index: 50;
+}
+
+
+/* =========================
+   3 PESTAÑAS ARRIBA
+   ========================= */
+
+.tabs .tab-button:nth-child(1) {
+    grid-column: 1 / span 2;
+}
+
+.tabs .tab-button:nth-child(2) {
+    grid-column: 3 / span 2;
+}
+
+.tabs .tab-button:nth-child(3) {
+    grid-column: 5 / span 2;
+}
+
+
+/* =========================
+   2 PESTAÑAS ABAJO
+   ========================= */
+
+.tabs .tab-button:nth-child(4) {
+    grid-column: 2 / span 2;
+}
+
+.tabs .tab-button:nth-child(5) {
+    grid-column: 4 / span 2;
+}
+
+
+/* =========================
+   BOTÓN DE CADA PESTAÑA
+   ========================= */
+
+.tab-button {
+    position: relative;
+
+    width: 85px;
+    height: 68px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    overflow: hidden;
+
+    transition: all 0.2s ease;
+}
+
+
+/* =========================
+   IMAGEN DE LA PESTAÑA
+   ========================= */
+
+.tab-button img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+}
+
+
+/* =========================
+   OVERLAY
+   ========================= */
+
+/* Todas las pestañas comienzan
+   con overlay */
+
+.tab-button .tab-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 76, 151, 0.55);
+
+    border-radius: 8px;
+
+    opacity: 1;
+
+    pointer-events: none;
+
+    transition: opacity 0.2s ease;
+}
+
+
+/* =========================
+   PESTAÑA ACTIVA
+   ========================= */
+
+/* La pestaña activa no tiene overlay */
+
+.tab-button.active .tab-overlay {
+    opacity: 0;
+}
+
+
+/* =========================
+   IMAGEN INICIAL
+   ========================= */
+
+.intro {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 20;
+}
+
+
+/* =========================
+   IMAGEN ILUSTRATIVA
+   ========================= */
+
+.imagen-intro {
+    width: 90%;
+    height: auto;
+
+    object-fit: contain;
+}
+
+
+/* =========================
+   CONTENEDOR DE SECCIONES
+   ========================= */
+
+.secciones {
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 5;
+}
+
+
+/* =========================
+   TODAS LAS SECCIONES
+   ========================= */
+
+.seccion {
+    display: none;
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================
+   SECCIÓN ACTIVA
+   ========================= */
+
+.seccion.active {
+    display: block;
+}
+
+
+/* =========================
+   IMÁGENES DE LAS SECCIONES
+   ========================= */
+
+.imagen-seccion {
+    position: absolute;
+
+    width: 85%;
+    height: 80px;
+
+    object-fit: contain;
+
+    cursor: pointer;
+
+    z-index: 10;
+}
+
+
+/* =========================
+   PRIMERA IMAGEN
+   ========================= */
+
+.imagen-1 {
+    left: 7.5%;
+    bottom: 140px;
+}
+
+
+/* =========================
+   SEGUNDA IMAGEN
+   ========================= */
+
+.imagen-2 {
+    left: 7.5%;
+    bottom: 245px;
+}
+
+
+/* =========================
+   TEXTO
+   ========================= */
+
+.Texto-abajo {
+    position: absolute;
+
+    bottom: 120px;
+
+    width: 100%;
+
+    text-align: center;
+
+    font-size: 24px;
+    font-weight: bold;
+
+    color: #ffffff;
+
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* =========================
+   ANIMACIÓN MONEY
+   ========================= */
+
+@keyframes money {
+
+    0% {
+        opacity: 0;
+        transform: translateY(-380px);
+    }
+
+    7% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(1000px);
+    }
+
+}
+
+
+/* =========================
+   ANIMACIÓN BOTONES
+   ========================= */
+
+@keyframes bounceInOut {
+
+    0% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+
+}
+
+.anim7 {
+    animation: bounceInOut 1.0s infinite;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="inapp-container">
+
+
+<!-- =========================
+     BOTÓN CERRAR
+     ========================= -->
+
+<button
+    class="close-button"
+
+    onclick="
+        brazeBridge.logClick('Close Message');
+        brazeBridge.closeMessage();
+    "
+>
+    X
+</button>
+
+
+<!-- =========================
+     PESTAÑAS
+     ========================= -->
+
+<div class="tabs">
+
+
+    <!-- =========================
+         PESTAÑA 1
+         EL MACHETAZO
+         ========================= -->
+
+    <button
+        class="tab-button"
+
+        onclick="
+            brazeBridge.logClick('0');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta1'
+                }
+            );
+
+            mostrarSeccion('servicios', this);
+        "
+    >
+
+        <img
+            src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a833e1ed430280086b7a09c/original.png?1786986013"
+
+            alt="El Machetazo"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+    <!-- =========================
+         PESTAÑA 2
+         BARRIO PIZZA
+         ========================= -->
+
+    <button
+        class="tab-button"
+
+        onclick="
+            brazeBridge.logClick('1');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta2'
+                }
+            );
+
+            mostrarSeccion('recargas', this);
+        "
+    >
+
+        <img
+            src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a833e5ae3320b0086e69f29/original.png?1786986074"
+
+            alt="Barrio Pizza"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+    <!-- =========================
+         PESTAÑA 3
+         DOIT CENTER
+         ========================= -->
+
+    <button
+        class="tab-button"
+
+        onclick="
+            brazeBridge.logClick('2');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta3'
+                }
+            );
+
+            mostrarSeccion('pagos', this);
+        "
+    >
+
+        <img
+            src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a833e8c367a6f008857f2b0/original.png?1786986123"
+
+            alt="Doit Center"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+    <!-- =========================
+         PESTAÑA 4
+         OTROS
+         ========================= -->
+
+    <button
+        class="tab-button"
+
+        onclick="
+            brazeBridge.logClick('3');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta4'
+                }
+            );
+
+            mostrarSeccion('otros', this);
+        "
+    >
+
+        <img
+            src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a833eb38f4996008ac8bbf8/original.png?1786986162"
+
+            alt="Otros"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+    <!-- =========================
+         PESTAÑA 5
+         ========================= -->
+
+    <button
+        class="tab-button"
+
+        onclick="
+            brazeBridge.logClick('3');
+
+            brazeBridge.logCustomEvent(
+                'Interaccion',
+                {
+                    inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                    action: 'body_clic_cta4'
+                }
+            );
+
+            mostrarSeccion('otros', this);
+        "
+    >
+
+        <img
+            src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a833f0d14d132008a624a36/original.png?1786986253"
+
+            alt="Otros"
+        >
+
+        <span class="tab-overlay"></span>
+
+    </button>
+
+
+</div>
+
+
+<!-- =========================
+     IMAGEN INICIAL
+     ========================= -->
+
+<div
+    id="intro"
+    class="intro"
+>
+
+    <img
+        src=""
+        alt="Imagen ilustrativa"
+        class="imagen-intro"
+    >
+
+</div>
+
+
+<!-- =========================
+     SECCIONES
+     ========================= -->
+
+<div class="secciones">
+
+
+    <!-- =========================
+         SERVICIOS
+         ========================= -->
+
+    <div
+        id="servicios"
+        class="seccion"
+    >
+
+        <!-- PRIMERA IMAGEN -->
+
+        <a
+            href="bgeneralprod://personal/transactions/payment"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7c8f315d9faf00a3b8e27c/original.png?1786548017"
+
+                alt="Servicios"
+
+                class="imagen-seccion imagen-1"
+
+                onclick="
+                    brazeBridge.logClick('0');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta1'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+
+        <!-- SEGUNDA IMAGEN -->
+
+        <a
+            href="bgeneralprod://personal/transactions/payment"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7c8f315d9faf00a3b8e27c/original.png?1786548017"
+
+                alt="Servicios"
+
+                class="imagen-seccion imagen-2"
+
+                onclick="
+                    brazeBridge.logClick('0');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta1'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         RECARGAS
+         ========================= -->
+
+    <div
+        id="recargas"
+        class="seccion"
+    >
+
+        <!-- PRIMERA IMAGEN -->
+
+        <a
+            href="bgeneralprod://personal/transactions/recharges"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7c91eaad10e300a37133e3/original.png?1786548713"
+
+                alt="Recargas"
+
+                class="imagen-seccion imagen-1"
+
+                onclick="
+                    brazeBridge.logClick('1');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta2'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+
+        <!-- SEGUNDA IMAGEN -->
+
+        <a
+            href="bgeneralprod://personal/transactions/recharges"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7c91eaad10e300a37133e3/original.png?1786548713"
+
+                alt="Recargas"
+
+                class="imagen-seccion imagen-2"
+
+                onclick="
+                    brazeBridge.logClick('1');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta2'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         PAGOS
+         ========================= -->
+
+    <div
+        id="pagos"
+        class="seccion"
+    >
+
+        <!-- PRIMERA IMAGEN -->
+
+        <a
+            href="bgeneralprod://personal/transactions/recharges"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7c928d40e7cb00a15bb632/original.png?1786548877"
+
+                alt="Pagos"
+
+                class="imagen-seccion imagen-1"
+
+                onclick="
+                    brazeBridge.logClick('2');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta3'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+
+        <!-- SEGUNDA IMAGEN -->
+
+        <a
+            href="bgeneralprod://personal/transactions/recharges"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7c928d40e7cb00a15bb632/original.png?1786548877"
+
+                alt="Pagos"
+
+                class="imagen-seccion imagen-2"
+
+                onclick="
+                    brazeBridge.logClick('2');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta3'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         OTROS
+         ========================= -->
+
+    <div
+        id="otros"
+        class="seccion"
+    >
+
+        <!-- PRIMERA IMAGEN -->
+
+        <a
+            href="bgeneralprod://authentication/ypmodule-access"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7b38dea2e4b00088dc216b/original.png?1786460382"
+
+                alt="Otros"
+
+                class="imagen-seccion imagen-1"
+
+                onclick="
+                    brazeBridge.logClick('3');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta4'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+
+        <!-- SEGUNDA IMAGEN -->
+
+        <a
+            href="bgeneralprod://authentication/ypmodule-access"
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a7b38dea2e4b00088dc216b/original.png?1786460382"
+
+                alt="Otros"
+
+                class="imagen-seccion imagen-2"
+
+                onclick="
+                    brazeBridge.logClick('3');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+                            action: 'body_clic_cta4'
+                        }
+                    );
+                "
+            >
+
+        </a>
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT
+     ========================= -->
+
+<script>
+
+function mostrarSeccion(nombre, boton) {
+
+
+    /* =========================
+       OCULTAR IMAGEN INICIAL
+       ========================= */
+
+    var intro =
+        document.getElementById('intro');
+
+    if (intro) {
+
+        intro.style.display = 'none';
+
+    }
+
+
+    /* =========================
+       OCULTAR TODAS LAS SECCIONES
+       ========================= */
+
+    var secciones =
+        document.querySelectorAll('.seccion');
+
+    secciones.forEach(function(seccion) {
+
+        seccion.classList.remove('active');
+
+    });
+
+
+    /* =========================
+       QUITAR ACTIVE DE TODOS
+       ========================= */
+
+    var botones =
+        document.querySelectorAll('.tab-button');
+
+    botones.forEach(function(btn) {
+
+        btn.classList.remove('active');
+
+    });
+
+
+    /* =========================
+       MOSTRAR SECCIÓN
+       ========================= */
+
+    var seccionSeleccionada =
+        document.getElementById(nombre);
+
+    if (seccionSeleccionada) {
+
+        seccionSeleccionada.classList.add('active');
+
+    }
+
+
+    /* =========================
+       ACTIVAR PESTAÑA
+       ========================= */
+
+    if (boton) {
+
+        boton.classList.add('active');
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
+
