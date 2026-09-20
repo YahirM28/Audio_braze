@@ -6711,4 +6711,525 @@ function mostrarSeccion(nombre, boton) {
 </body>
 
 </html>
+--
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mensaje In-App</title>
+
+<style>
+
+/* =====================================================
+   1. CONFIGURACIÓN GENERAL
+   ===================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+
+  background-color: rgba(0, 0, 0, 0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100vh;
+
+  font-family: 'Inter', sans-serif;
+
+  overflow: hidden;
+}
+
+
+/* =====================================================
+   2. CONTENEDOR PRINCIPAL
+   DISEÑO BASE: 330 x 600
+   ===================================================== */
+
+.inapp-container {
+
+  position: relative;
+
+  width: 330px;
+  height: 600px;
+
+  min-width: 330px;
+  min-height: 600px;
+
+  max-width: 330px;
+  max-height: 600px;
+
+  flex-shrink: 0;
+
+  background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/6aadad020aefef00906dbf4b/original.jpg?1789766913');
+
+  background-size: cover;
+
+  background-position: center;
+
+  background-repeat: no-repeat;
+
+  border-radius: 8px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  /*
+    Se mantiene visible porque algunas de tus
+    imágenes pueden sobresalir del contenedor.
+  */
+
+  overflow: visible;
+
+  color: #1677D8;
+
+  transform-origin: center center;
+}
+
+
+/* =====================================================
+   3. ESCALA CUANDO LA PANTALLA ES BAJA
+   ===================================================== */
+
+@media screen and (max-height: 600px) and (min-width: 331px) {
+
+  .inapp-container {
+
+    transform: scale(calc(100vh / 600));
+
+  }
+
+}
+
+
+/* =====================================================
+   4. ESCALA CUANDO LA PANTALLA ES ESTRECHA
+   ===================================================== */
+
+@media screen and (max-width: 330px) and (min-height: 601px) {
+
+  .inapp-container {
+
+    transform: scale(calc(100vw / 330));
+
+  }
+
+}
+
+
+/* =====================================================
+   5. ESCALA CUANDO ES ESTRECHA Y BAJA
+   ===================================================== */
+
+@media screen and (max-width: 330px) and (max-height: 600px) {
+
+  .inapp-container {
+
+    transform: scale(
+      min(
+        calc(100vw / 330),
+        calc(100vh / 600)
+      )
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   6. BOTÓN CERRAR
+   ===================================================== */
+
+.close-button {
+
+  position: absolute;
+
+  top: 12px;
+
+  right: 12px;
+
+  width: 28px;
+
+  height: 28px;
+
+  padding: 0;
+
+  background: transparent;
+
+  color: #000000;
+
+  border: none;
+
+  border-radius: 50%;
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  line-height: 28px;
+
+  text-align: center;
+
+  text-decoration: none;
+
+  z-index: 100;
+}
+
+
+/* =====================================================
+   7. MONTO
+   ===================================================== */
+
+.monto-contenedor {
+
+  position: absolute;
+
+  bottom: 300px;
+
+  left: 0;
+
+  width: 100%;
+
+  text-align: center;
+
+  color: #ffffff;
+
+  font-family: 'Inter', sans-serif;
+
+  font-size: 28px;
+}
+
+
+/* =====================================================
+   8. TEXTO INFERIOR
+   ===================================================== */
+
+.Texto-abajo {
+
+  position: absolute;
+
+  bottom: 120px;
+
+  left: 0;
+
+  width: 100%;
+
+  text-align: center;
+
+  font-size: 24px;
+
+  font-weight: bold;
+
+  color: #ffffff;
+
+  font-family: 'Inter', sans-serif;
+}
+
+
+/* =====================================================
+   9. BOTÓN
+   ===================================================== */
+
+.boton-descubre {
+
+  position: absolute;
+
+  bottom: 40px;
+
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: 220px;
+
+  height: 50px;
+
+  background-color: #ffffff;
+
+  color: #004c97;
+
+  border: none;
+
+  border-radius: 10px;
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+
+  text-decoration: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+/* =====================================================
+   10. CUENTA REGRESIVA
+   ===================================================== */
+
+.countdown {
+
+  position: absolute;
+
+  bottom: 60px;
+
+  left: 0;
+
+  width: 100%;
+
+  font-family: 'Inter', sans-serif;
+
+  text-align: center;
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 5px;
+
+  font-size: 14px;
+}
+
+
+.countdown div {
+
+  background-color: #ffffff;
+
+  border-radius: 10px;
+
+  padding: 8px;
+
+  min-width: 50px;
+}
+
+
+.countdown .number {
+
+  font-size: 20px;
+
+  font-weight: bold;
+
+  display: block;
+}
+
+
+.countdown .label {
+
+  font-size: 12px;
+}
+
+
+/* =====================================================
+   11. IMAGEN img_flo
+   ===================================================== */
+
+.img_flo {
+
+  position: absolute;
+
+  bottom: 90px;
+
+  right: 50px;
+
+  width: 70%;
+
+  overflow: visible;
+}
+
+
+/* =====================================================
+   12. IMAGEN img_flou
+   ===================================================== */
+
+.img_flou {
+
+  position: absolute;
+
+  bottom: 115px;
+
+  right: 45px;
+
+  width: 74%;
+
+  overflow: visible;
+}
+
+
+/* =====================================================
+   13. IMAGEN img_flo3
+   ===================================================== */
+
+.img_flo3 {
+
+  position: absolute;
+
+  bottom: 60px;
+
+  right: 0;
+
+  width: 10%;
+
+  overflow: visible;
+}
+
+
+/* =====================================================
+   14. IMAGEN img_flo4
+   ===================================================== */
+
+.img_flo4 {
+
+  position: absolute;
+
+  top: 50px;
+
+  left: -50px;
+
+  width: 20%;
+
+  overflow: visible;
+}
+
+
+/* =====================================================
+   15. ANIMACIÓN MONEY
+   ===================================================== */
+
+@keyframes money {
+
+  0% {
+
+    opacity: 0;
+
+    transform: translateY(-380px);
+
+  }
+
+  7% {
+
+    opacity: 1;
+
+  }
+
+  50% {
+
+    opacity: 1;
+
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform: translateY(1000px);
+
+  }
+
+}
+
+
+.anim1 {
+
+  animation: money 20s ease-in forwards infinite;
+
+}
+
+
+/* =====================================================
+   16. ANIMACIÓN BOUNCE
+   ===================================================== */
+
+@keyframes bounceIn {
+
+  0% {
+
+    opacity: 1;
+
+    transform: scale(0.3);
+
+  }
+
+  40% {
+
+    transform: scale(1.05);
+
+  }
+
+  70% {
+
+    transform: scale(0.9);
+
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform: scale(1);
+
+  }
+
+}
+
+
+.anim7 {
+
+  animation: bounceIn 3s ease infinite alternate;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="inapp-container">
+
+
+  <button
+    class="close-button"
+    onclick='brazeBridge.logClick("Close Message"); brazeBridge.closeMessage()'>
+    X
+  </button>
+
+
+</div>
+
+
+</body>
+
+</html>
+```
+
+
 
