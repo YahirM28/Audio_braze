@@ -7231,5 +7231,339 @@ body {
 </html>
 ```
 
+2809
+
+```html
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mensaje In-App</title>
+
+<style>
+
+a.full-background{
+  display:block;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-position:center;
+  text-decoration:none;
+}
+
+body{
+  margin:0;
+  background-color:rgba(0,0,0,0.7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  font-family:'Inter', sans-serif;
+}
+
+.inapp-container{
+  position:relative;
+  width:330px;
+  height:600px;
+  background-image:url('https://braze-images.com/appboy/communication/assets/image_assets/images/6ab6d28c1ac990008a92867c/original.jpg?1790366348');
+  background-size:cover;
+  background-position:center;
+  border-radius:8px;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+  overflow:visible;
+  color:#1677D8;
+}
+
+.monto-contenedor{
+  position:absolute;
+  bottom:23px;
+  width:100%;
+  text-align:center;
+  color:#004C97;
+  font-family:'Inter', sans-serif;
+  font-size:clamp(7px,4vw,12px);
+}
+
+.link-horario{
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.boton-descubre{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  width:220px;
+  height:50px;
+  background-color:white;
+  color:#004c97;
+  border:none;
+  border-radius:10px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  box-shadow:0 2px 5px rgba(0,0,0,0.2);
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.close-button{
+  position:absolute;
+  top:12px;
+  right:12px;
+  color:black;
+  border:none;
+  border-radius:50%;
+  width:28px;
+  height:28px;
+  font-size:18px;
+  font-weight:bold;
+  cursor:pointer;
+  line-height:28px;
+  text-align:center;
+  text-decoration:none;
+}
+
+.img_flo{
+  position:absolute;
+  bottom:64px;
+  width:245px;
+  height:45px;
+  right:42px;
+  overflow:visible;
+}
+
+@keyframes bounceInOut{
+  0%{transform:translate(0);}
+  25%{transform:translateX(-2px);}
+  50%{transform:translateX(2px);}
+  75%{transform:translateX(-2px);}
+  100%{transform:translateX(0px);}
+}
+
+.anim7{
+  animation:bounceInOut 1.0s infinite;
+}
+
+
+/* POPUP HORARIO */
+
+.popup-horario{
+  position:absolute;
+  top:0;
+  left:0;
+  width:330px;
+  height:600px;
+  background:rgba(0,0,0,0.65);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:50;
+}
+
+.popup-contenido{
+  background:white;
+  padding:20px;
+  border-radius:12px;
+  width:260px;
+  text-align:center;
+  color:#004C97;
+  position:relative;
+  font-size:12px;
+  text-align:justify;
+}
+
+
+/* CTAs DEL MODAL */
+
+.modal-ctas{
+  margin-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.modal-cta{
+  width:100%;
+  height:42px;
+  border:none;
+  border-radius:10px;
+  background:#004C97;
+  color:white;
+  font-size:14px;
+  font-weight:bold;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-sizing:border-box;
+}
+
+.modal-cta.secundaria{
+  background:#E8E8E8;
+  color:#004C97;
+}
+
+.cerrar-popup{
+  position:absolute;
+  top:5px;
+  right:10px;
+  font-size:20px;
+  cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="inapp-container">
+
+
+<div class="container-llamada">
+
+<div class="monto-contenedor">
+
+<p>
+
+Términos y condiciones
+<b>
+<span class="link-horario"
+onclick="brazeBridge.logClick('1'); abrirHorario();">
+aquí.
+</span>
+</b>
+
+<br>
+
+</p>
+
+</div>
+
+</div>
+
+
+<button class="close-button"
+
+onclick='brazeBridge.logClick("Close Message"); brazeBridge.closeMessage()'>
+
+X
+
+</button>
+
+
+<div>
+
+<a href="bgeneralprod://personal/transactions/recharges"
+
+onclick="brazeBridge.logClick('0');
+
+brazeBridge.logCustomEvent('Interaccion',
+{
+  inapp_id: 'TXN-panapass-M-mix_promo gasolina_aumento frecuencia_202609_28-10',
+  action: 'body_clic_cta'
+}
+)">
+
+<img
+
+src="https://braze-images.com/appboy/communication/assets/image_assets/images/6ab6d20d89adea008cf7a786/original.png?1790366221"
+
+class="img_flo">
+
+</a>
+
+</div>
+
+
+<!-- popup de horarios -->
+
+<div id="popupHorario" class="popup-horario">
+
+<div class="popup-contenido">
+
+
+<span class="close-button"
+onclick="brazeBridge.logClick('2'); cerrarHorario();">
+X
+</span>
+
+
+<p>
+
+<br>
+
+Promoción válida del 28 de septiembre al 24 de octubre de 2026. Aplican a la promoción los clientes que hayan realizado entre 1 y 3 recargas de Panapass cada mes durante julio y agosto de 2026, y que al 24 de septiembre hayan realizado 2 o menos recargas de Panapass en Banca en Línea o el app de Banco General, y que además hayan recibido el anuncio de la promoción por parte de Banco General en uno de sus canales oficiales. Los 40 clientes que, durante el periodo de vigencia de la promoción, realicen la mayor cantidad de recargas de ENA Panapass en el app o Banca en Línea, ganarán un bono de combustible en Estaciones Delta por US$50.00. En caso de empate, ganarán los 40 clientes que hayan realizado el mayor número de recargas de Panapass en el menor tiempo. El bono de US$50.00 será enviado por medio de un correo el cual contendrá un QR para canjear el mismo. Esto será en un término no mayor a 15 días después de finalizado el periodo de la promoción. Esta promoción no es transferible a otra persona o comercio. No es canjeable en efectivo. No participan colaboradores de Banco General, ni subsidiarias.
+
+</p>
+
+
+<!-- DOS CTAs DEL MODAL -->
+
+<div class="modal-ctas">
+
+<!-- CTA 1: LANDING -->
+
+<a
+href="https://example.com"
+class="modal-cta"
+onclick="brazeBridge.logClick('3');">
+
+Ir a la promoción
+
+</a>
+
+
+<!-- CTA 2: SOLO CIERRA EL MODAL -->
+
+<button
+class="modal-cta secundaria"
+onclick="brazeBridge.logClick('4'); cerrarHorario();">
+
+Cerrar
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+function abrirHorario(){
+
+document.getElementById("popupHorario").style.display="flex";
+
+}
+
+function cerrarHorario(){
+
+document.getElementById("popupHorario").style.display="none";
+
+}
+
+</script>
+
+</body>
+
+</html>
+```
 
 
