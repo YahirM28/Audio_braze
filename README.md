@@ -7566,4 +7566,1161 @@ document.getElementById("popupHorario").style.display="none";
 </html>
 ```
 
+29 09
 
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Mensaje In-App</title>
+
+
+<style>
+
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================================================
+   BODY
+   ========================================================= */
+
+body {
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+
+
+/* =========================================================
+   CONTENEDOR PRINCIPAL
+   ========================================================= */
+
+.inapp-container {
+    position: relative;
+
+    width: 330px;
+    height: 600px;
+
+    background-image: url(
+        'https://braze-images.com/appboy/communication/assets/image_assets/images/6a88b3501f4eca008821c13f/original.png?1787343695'
+    );
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    border-radius: 8px;
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.2);
+
+    isolation: isolate;
+}
+
+
+/* =========================================================
+   BOTÓN CERRAR
+   ========================================================= */
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    color: rgb(0, 0, 0);
+
+    border: none;
+    border-radius: 50%;
+
+    width: 28px;
+    height: 28px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    line-height: 28px;
+    text-align: center;
+    text-decoration: none;
+
+    z-index: 99999;
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   IMAGEN INICIAL
+   ========================================================= */
+
+.imagen-inicial {
+    position: absolute;
+
+    top: 215px;
+    left: 108px;
+
+    width: 245px;
+    height: 270px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 10;
+
+    pointer-events: none;
+
+    opacity: 1;
+    visibility: visible;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+
+.imagen-inicial img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    pointer-events: none;
+}
+
+
+.imagen-inicial.oculta {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PESTAÑAS
+   ========================================================= */
+
+.tabs {
+    position: absolute;
+
+    top: 162px;
+    left: 45px;
+
+    width: 68px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    gap: 8px;
+
+    z-index: 9000;
+
+    pointer-events: auto;
+
+    transition:
+        opacity 0.2s ease,
+        visibility 0.2s ease;
+}
+
+
+/* =========================================================
+   OCULTAR PESTAÑAS DESPUÉS DE SELECCIONAR
+   ========================================================= */
+
+.tabs.oculta {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   BOTÓN DE CADA PESTAÑA
+   ========================================================= */
+
+.tab-button {
+    position: relative;
+
+    width: 80px;
+    height: 72px;
+
+    padding: 0;
+    margin: 0;
+
+    border: none;
+    background: transparent;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+    overflow: hidden;
+
+    flex-shrink: 0;
+
+    pointer-events: auto;
+
+    z-index: 9001;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =========================================================
+   IMAGEN DE LA PESTAÑA
+   ========================================================= */
+
+.tab-button img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border-radius: 8px;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   OVERLAY
+   ========================================================= */
+
+.tab-overlay {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color:
+        rgba(35, 36, 38, 0.55);
+
+    border-radius: 8px;
+
+    opacity: 1;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.2s ease;
+}
+
+
+/* =========================================================
+   PESTAÑA ACTIVA
+   ========================================================= */
+
+.tab-button.active {
+    box-shadow:
+        0 0 18px #008996;
+
+    transform: scale(1.03);
+}
+
+
+.tab-button.active .tab-overlay {
+    opacity: 0;
+}
+
+
+/* =========================================================
+   CONTENEDOR DE SECCIONES
+   ========================================================= */
+
+.secciones {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 5000;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SECCIÓN
+   ========================================================= */
+
+.seccion {
+    display: none;
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    pointer-events: none;
+
+    z-index: 5001;
+}
+
+
+/* =========================================================
+   SECCIÓN ACTIVA
+   ========================================================= */
+
+.seccion.active {
+    display: block;
+
+    pointer-events: auto;
+
+    z-index: 5002;
+}
+
+
+/* =========================================================
+   ENLACES DE CERTIFICADOS
+   ========================================================= */
+
+.certificado-link {
+    position: absolute;
+
+    display: block;
+
+    width: 132px;
+    height: auto;
+
+    line-height: 0;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+
+    z-index: 6000;
+}
+
+
+/* =========================================================
+   IMAGEN DEL CERTIFICADO
+   ========================================================= */
+
+.certificado-link img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+
+    cursor: pointer;
+
+    pointer-events: auto;
+}
+
+
+/* =========================================================
+   POSICIONES CERTIFICADOS
+   ========================================================= */
+
+.certificado-1 {
+    right: 35px;
+    bottom: 310px;
+}
+
+
+.certificado-2 {
+    right: 35px;
+    bottom: 182px;
+}
+
+
+.certificado-3 {
+    right: 35px;
+    bottom: 55px;
+}
+
+
+/* =========================================================
+   OFFISPA
+   ========================================================= */
+
+.certificado-unico {
+    right: 35px;
+    bottom: 310px;
+}
+
+
+/* =========================================================
+   ANIMACIÓN MONEY
+   ========================================================= */
+
+@keyframes money {
+
+    0% {
+        opacity: 0;
+
+        transform:
+            translateY(-380px);
+    }
+
+    7% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+
+        transform:
+            translateY(1000px);
+    }
+}
+
+
+/* =========================================================
+   ANIMACIÓN BOTONES
+   ========================================================= */
+
+@keyframes bounceInOut {
+
+    0% {
+        transform:
+            translateX(0);
+    }
+
+    25% {
+        transform:
+            translateX(-2px);
+    }
+
+    50% {
+        transform:
+            translateX(2px);
+    }
+
+    75% {
+        transform:
+            translateX(-2px);
+    }
+
+    100% {
+        transform:
+            translateX(0);
+    }
+}
+
+
+.anim7 {
+    animation:
+        bounceInOut 1s infinite;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     CONTENEDOR PRINCIPAL
+     ========================================================= -->
+
+<div class="inapp-container">
+
+
+    <!-- =====================================================
+         BOTÓN CERRAR
+         ===================================================== -->
+
+    <button
+        type="button"
+        class="close-button"
+        onclick="
+            brazeBridge.logClick('Close Message');
+            brazeBridge.closeMessage();
+        "
+    >
+        X
+    </button>
+
+
+    <!-- =====================================================
+         IMAGEN INICIAL
+         ===================================================== -->
+
+    <div
+        class="imagen-inicial"
+        id="imagenInicial"
+    >
+
+        <img
+            src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88bed7d9045f0088f1482f/original.png?1787346646"
+            alt="Imagen ilustrativa"
+        >
+
+    </div>
+
+
+    <!-- =====================================================
+         5 PESTAÑAS
+         ===================================================== -->
+
+    <div class="tabs">
+
+
+        <!-- =================================================
+             PESTAÑA 1
+             ================================================= -->
+
+        <button
+            type="button"
+            class="tab-button"
+            onclick="
+                brazeBridge.logClick('0');
+
+                brazeBridge.logCustomEvent(
+                    'Interaccion',
+                    {
+                        inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                        action: 'body_clic1'
+                    }
+                );
+
+                mostrarSeccion('servicios', this);
+            "
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887955d9e5ca00883d9eda/original.png?1787328853"
+                alt="El Machetazo"
+            >
+
+            <span class="tab-overlay"></span>
+
+        </button>
+
+
+        <!-- =================================================
+             PESTAÑA 2
+             ================================================= -->
+
+        <button
+            type="button"
+            class="tab-button"
+            onclick="
+                brazeBridge.logClick('1');
+
+                brazeBridge.logCustomEvent(
+                    'Interaccion',
+                    {
+                        inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                        action: 'body_clic2'
+                    }
+                );
+
+                mostrarSeccion('recargas', this);
+            "
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88797cc642d90088db4f74/original.png?1787328892"
+                alt="Doit center"
+            >
+
+            <span class="tab-overlay"></span>
+
+        </button>
+
+
+        <!-- =================================================
+             PESTAÑA 3
+             ================================================= -->
+
+        <button
+            type="button"
+            class="tab-button"
+            onclick="
+                brazeBridge.logClick('2');
+
+                brazeBridge.logCustomEvent(
+                    'Interaccion',
+                    {
+                        inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                        action: 'body_clic3'
+                    }
+                );
+
+                mostrarSeccion('pagos', this);
+            "
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88b92a172bdc00866165d4/original.png?1787345193"
+                alt="delta"
+            >
+
+            <span class="tab-overlay"></span>
+
+        </button>
+
+
+        <!-- =================================================
+             PESTAÑA 4
+             ================================================= -->
+
+        <button
+            type="button"
+            class="tab-button"
+            onclick="
+                brazeBridge.logClick('3');
+
+                brazeBridge.logCustomEvent(
+                    'Interaccion',
+                    {
+                        inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                        action: 'body_clic4'
+                    }
+                );
+
+                mostrarSeccion('otros', this);
+            "
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8879e5d692900088def13c/original.png?1787328997"
+                alt="OffiSpa"
+            >
+
+            <span class="tab-overlay"></span>
+
+        </button>
+
+
+        <!-- =================================================
+             PESTAÑA 5
+             ================================================= -->
+
+        <button
+            type="button"
+            class="tab-button"
+            onclick="
+                brazeBridge.logClick('4');
+
+                brazeBridge.logCustomEvent(
+                    'Interaccion',
+                    {
+                        inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                        action: 'body_clic5'
+                    }
+                );
+
+                mostrarSeccion('otros2', this);
+            "
+        >
+
+            <img
+                src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887a931024b400a2df27b1/original.png?1787329171"
+                alt="Barrio Pizza"
+            >
+
+            <span class="tab-overlay"></span>
+
+        </button>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         SECCIONES
+         ===================================================== -->
+
+    <div class="secciones">
+
+
+        <!-- =================================================
+             SECCIÓN 1 — EL MACHETAZO
+             ================================================= -->
+
+        <div
+            id="servicios"
+            class="seccion"
+        >
+
+            <!-- $25 -->
+
+            <a
+                class="certificado-link certificado-1"
+                href="https://www.bgeneral.com/product/25-00-certificado-el-machetazo/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta125_machetazo'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887b2a3cc1d000881b148f/original.png?1787329322"
+                    alt="Certificado $25 El Machetazo"
+                >
+
+            </a>
+
+
+            <!-- $50 -->
+
+            <a
+                class="certificado-link certificado-2"
+                href="https://www.bgeneral.com/product/50-00-certificado-el-machetazo/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta250_machetazo'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887bce66931b008a8ed843/original.png?1787329485"
+                    alt="Certificado $50 El Machetazo"
+                >
+
+            </a>
+
+
+            <!-- $100 -->
+
+            <a
+                class="certificado-link certificado-3"
+                href="https://www.bgeneral.com/product/100-certificado-el-machetazo/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta3100_machetazo'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887cdad9e5ca00883db540/original.png?1787329753"
+                    alt="Certificado $100 El Machetazo"
+                >
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             SECCIÓN 2 — DO IT CENTER
+             ================================================= -->
+
+        <div
+            id="recargas"
+            class="seccion"
+        >
+
+            <!-- $25 -->
+
+            <a
+                class="certificado-link certificado-1"
+                href="https://www.bgeneral.com/product/25-certificado-do-it-center/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta125_doit'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887e835ae9d0008663384d/original.png?1787330178"
+                    alt="Certificado $25 Do it Center"
+                >
+
+            </a>
+
+
+            <!-- $50 -->
+
+            <a
+                class="certificado-link certificado-2"
+                href="https://www.bgeneral.com/product/50-certificado-do-it-center/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta250_doit'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887e10c642d90088db6a7a/original.png?1787330063"
+                    alt="Certificado $50 Do it Center"
+                >
+
+            </a>
+
+
+            <!-- $100 -->
+
+            <a
+                class="certificado-link certificado-3"
+                href="https://www.bgeneral.com/product/100-certificado-do-it-center/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta3100_doit'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a887da8af01fd0088904216/original.png?1787329959"
+                    alt="Certificado $100 Do it Center"
+                >
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             SECCIÓN 3 — DELTA
+             ================================================= -->
+
+        <div
+            id="pagos"
+            class="seccion"
+        >
+
+            <!-- $25 -->
+
+            <a
+                class="certificado-link certificado-1"
+                href="https://www.bgeneral.com/product/25-certificado-delta/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta125_delta'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8881700105d90088bc3450/original.png?1787330928"
+                    alt="Certificado $25 Delta"
+                >
+
+            </a>
+
+
+            <!-- $50 -->
+
+            <a
+                class="certificado-link certificado-2"
+                href="https://www.bgeneral.com/product/50-certificado-delta/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta250_delta'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8881a3d6929000a3decb61/original.png?1787330978"
+                    alt="Certificado $50 Delta"
+                >
+
+            </a>
+
+
+            <!-- $100 -->
+
+            <a
+                class="certificado-link certificado-3"
+                href="https://www.bgeneral.com/product/100-certificado-delta/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta3100_delta'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a8881d3ea267f00a3c30e33/original.png?1787331026"
+                    alt="Certificado $100 Delta"
+                >
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             SECCIÓN 4 — OFFISPA
+             ================================================= -->
+
+        <div
+            id="otros"
+            class="seccion"
+        >
+
+            <a
+                class="certificado-link certificado-unico"
+                href="https://www.bgeneral.com/product/certificado-de-regalo-offispa/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta160_spa'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a888203ea267f0088c351d0/original.png?1787331074"
+                    alt="Certificado $60 OffiSpa"
+                >
+
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             SECCIÓN 5 — BARRIO PIZZA
+             ================================================= -->
+
+        <div
+            id="otros2"
+            class="seccion"
+        >
+
+            <!-- $25 -->
+
+            <a
+                class="certificado-link certificado-1"
+                href="https://www.bgeneral.com/product/25-certificado-de-barrio-pizza/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta125_barrio'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88828afd42cc0088aeb807/original.png?1787331209"
+                    alt="Certificado $25 Barrio Pizza"
+                >
+
+            </a>
+
+
+            <!-- $50 -->
+
+            <a
+                class="certificado-link certificado-2"
+                href="https://www.bgeneral.com/product/50-certificado-de-barrio-pizza/"
+                onclick="
+                    brazeBridge.logClick('');
+
+                    brazeBridge.logCustomEvent(
+                        'Interaccion',
+                        {
+                            inapp_id: 'TCRCV-canje-M-mix_CatalogoCertificadosNew_202609_13',
+                            action: 'cta250_barrio'
+                        }
+                    );
+                "
+            >
+
+                <img
+                    src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a88825bfd42cc0088aeb45d/original.png?1787331162"
+                    alt="Certificado $50 Barrio Pizza"
+                >
+
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     JAVASCRIPT
+     ========================================================= -->
+
+<script>
+
+function mostrarSeccion(nombre, boton) {
+
+
+    /* =====================================================
+       1. OCULTAR TODAS LAS SECCIONES
+       ===================================================== */
+
+    var secciones =
+        document.querySelectorAll('.seccion');
+
+    secciones.forEach(function(seccion) {
+        seccion.classList.remove('active');
+    });
+
+
+    /* =====================================================
+       2. QUITAR ACTIVE DE TODAS LAS PESTAÑAS
+       ===================================================== */
+
+    var botones =
+        document.querySelectorAll('.tab-button');
+
+    botones.forEach(function(btn) {
+        btn.classList.remove('active');
+    });
+
+
+    /* =====================================================
+       3. MOSTRAR SOLO LA SECCIÓN SELECCIONADA
+       ===================================================== */
+
+    var seccionSeleccionada =
+        document.getElementById(nombre);
+
+    if (seccionSeleccionada) {
+        seccionSeleccionada.classList.add('active');
+    }
+
+
+    /* =====================================================
+       4. ACTIVAR LA PESTAÑA SELECCIONADA
+       ===================================================== */
+
+    if (boton) {
+        boton.classList.add('active');
+    }
+
+
+    /* =====================================================
+       5. OCULTAR IMAGEN INICIAL
+       ===================================================== */
+
+    var imagenInicial =
+        document.getElementById('imagenInicial');
+
+    if (imagenInicial) {
+        imagenInicial.classList.add('oculta');
+    }
+
+
+    /* =====================================================
+       6. OCULTAR LAS 5 PESTAÑAS
+       ===================================================== */
+
+    var tabs =
+        document.querySelector('.tabs');
+
+    if (tabs) {
+        tabs.classList.add('oculta');
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>
