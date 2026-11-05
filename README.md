@@ -8724,3 +8724,287 @@ function mostrarSeccion(nombre, boton) {
 </body>
 
 </html>
+
+0511---
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title></title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+
+    body {
+      margin: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .slideshow-container {
+      position: relative;
+      width: 330px;
+      height: 600px;
+      margin: auto;
+      overflow: hidden;
+      padding-top: 0px;
+      border-radius: 8px;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .carousel-images {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .carousel-images img {
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .carousel-images a {
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    .button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-color: blue;
+      color: #FF7900;
+      border: #FF7900;
+      padding: 10px;
+      cursor: pointer;
+      border-color: #FF7900;
+    }
+
+    .prev {
+      background-color: transparent;
+      left: 0px;
+      border-radius: 3px 3px 3px 3px;
+      padding: 6px 3px 3px 6px;
+    }
+
+    .next {
+      background-color: transparent;
+      right: 0px;
+      border-radius: 3px 3px 3px 3px;
+      padding: 6px 6px 3px 3px;
+    }
+
+    .close-button {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border: none;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      line-height: 28px;
+      text-align: center;
+      text-decoration: none;
+      background-color: #f2f5f5;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="slideshow-container">
+
+    <div class="carousel-images">
+
+      <!-- PANTALLA 1 -->
+
+      <a href="https://bg-bg.typeform.com/to/tIOHfTI8#ente=2562287"
+        style="display: block; width: 100%; flex-shrink: 0;"
+        onclick="brazeBridge.logClick('0');
+        brazeBridge.logCustomEvent('Interaccion', {
+          inapp_id: 'TCRCV-CDP-M-mix_CambioProducto(septmembresia)_20260_01',
+          action: 'body_clic_camp6_cta'
+        });">
+
+        <img
+          src="https://braze-images.com/appboy/communication/assets/image_assets/images/6a90a4d862f7440088f1ab90/original.png?1787864279"
+          alt="Ilustración"
+          style="width: 100%; display: block;">
+      </a>
+
+      <!-- PANTALLA 2 -->
+
+      <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6aa1c2062a95a600888ecb6f/original.png?1788985859">
+
+      <!-- PANTALLA 3 -->
+
+      <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6aa1c237d774e3008831df69/original.png?1788985909">
+
+    </div>
+
+    <!-- BOTON CERRAR -->
+
+    <button class="close-button" href="#"
+      onclick='brazeBridge.logClick("Close Message"); brazeBridge.closeMessage()'>
+      X
+    </button>
+
+    <!-- FLECHA ANTERIOR -->
+
+    <button class="button prev" onclick="prevSlide()">
+      <div>
+        <svg width="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_2_2)">
+            <path d="M256 512C397.163 512 512 397.163 512 256C512 114.837 397.163 -1.52588e-05 256 -1.52588e-05C114.837 -1.52588e-05 -1.52588e-05 114.837 -1.52588e-05 256C-1.52588e-05 397.163 114.837 512 256 512ZM256 21.3333C385.387 21.3333 490.667 126.613 490.667 256C490.667 385.387 385.387 490.667 256 490.667C126.613 490.667 21.3333 385.387 21.3333 256C21.3333 126.613 126.613 21.3333 256 21.3333ZM138.197 280.619C124.629 267.051 124.629 244.971 138.197 231.381L240.661 128.917L255.744 144L154.411 245.333H384V266.667H154.411L255.744 368L240.661 383.083L138.197 280.619Z" fill="white"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_2_2">
+              <rect width="512" height="512" fill="white" transform="matrix(-1 0 0 -1 512 512)"/>
+            </clipPath>
+          </defs>
+        </svg>
+      </div>
+    </button>
+
+    <!-- FLECHA SIGUIENTE -->
+
+    <button class="button next" onclick="nextSlide()">
+      <div>
+        <svg width="25" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M256 0C114.837 0 0 114.837 0 256C0 397.163 114.837 512 256 512C397.163 512 512 397.163 512 256C512 114.837 397.163 0 256 0ZM256 490.667C126.613 490.667 21.3333 385.387 21.3333 256C21.3333 126.613 126.613 21.3333 256 21.3333C385.387 21.3333 490.667 126.613 490.667 256C490.667 385.387 385.387 490.667 256 490.667ZM373.803 231.381C387.371 244.949 387.371 267.029 373.803 280.619L271.339 383.083L256.256 368L357.589 266.667H128V245.333H357.589L256.256 144L271.339 128.917L373.803 231.381Z" fill="white"/>
+        </svg>
+      </div>
+    </button>
+
+  </div>
+
+  <script>
+
+    const carouselImages = document.querySelector('.carousel-images');
+    const images = document.querySelectorAll('.carousel-images img');
+
+    let currentIndex = 0;
+    let slideInterval;
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    // REGISTRO DE SWIPE EN BRAZE
+
+    function registrarSwipe(index) {
+
+      const action = 'swipe_pantalla' + (index + 1);
+
+      brazeBridge.logClick(action);
+
+      brazeBridge.logCustomEvent('Interaccion', {
+        inapp_id: 'TCRCV-CDP-M-mix_CambioProducto(septmembresia)_20260_01',
+        action: action
+      });
+
+    }
+
+    // MOSTRAR PANTALLA
+
+    function showSlide(index) {
+
+      const totalImages = images.length;
+
+      if (index >= totalImages) {
+        currentIndex = 0;
+      } else if (index < 0) {
+        currentIndex = totalImages - 1;
+      } else {
+        currentIndex = index;
+      }
+
+      const offset = -currentIndex * 100;
+
+      carouselImages.style.transform = `translateX(${offset}%)`;
+
+    }
+
+    // SIGUIENTE PANTALLA
+
+    function nextSlide() {
+      showSlide(currentIndex + 1);
+    }
+
+    // PANTALLA ANTERIOR
+
+    function prevSlide() {
+      showSlide(currentIndex - 1);
+    }
+
+    // DETECTAR INICIO DEL SWIPE
+
+    carouselImages.addEventListener('touchstart', function (e) {
+
+      touchStartX = e.changedTouches[0].screenX;
+
+    });
+
+    // DETECTAR FIN DEL SWIPE
+
+    carouselImages.addEventListener('touchend', function (e) {
+
+      touchEndX = e.changedTouches[0].screenX;
+
+      handleSwipe();
+
+    });
+
+    // REGISTRAR SWIPE SEGUN LA PANTALLA
+
+    function handleSwipe() {
+
+      const swipeDistance = touchEndX - touchStartX;
+
+      // SWIPE HACIA ADELANTE
+
+      if (swipeDistance < -50) {
+
+        registrarSwipe(currentIndex);
+
+        nextSlide();
+
+      }
+
+      // SWIPE HACIA ATRAS
+
+      if (swipeDistance > 50) {
+
+        registrarSwipe(currentIndex);
+
+        prevSlide();
+
+      }
+
+    }
+
+    function stop() {
+      clearInterval(currentIndex);
+    }
+
+    setInterval(nextSlide, 1000000);
+
+    document.querySelectorAll('.button').forEach(button => {
+      button.addEventListener('click', stop);
+    });
+
+  </script>
+
+</body>
+</html>
+
