@@ -9008,3 +9008,67 @@ function mostrarSeccion(nombre, boton) {
 </body>
 </html>
 
+1111
+// CONTENEDOR PRINCIPAL
+const slideshow = document.querySelector('.slideshow-container');
+
+// DETECTAR INICIO DEL SWIPE
+slideshow.addEventListener('touchstart', function (e) {
+
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+
+}, { passive: true });
+
+
+// EVITAR QUE IOS INTERFIERA CON EL SWIPE HORIZONTAL
+slideshow.addEventListener('touchmove', function (e) {
+
+    const moveX = e.changedTouches[0].clientX - touchStartX;
+    const moveY = e.changedTouches[0].clientY - touchStartY;
+
+    if (Math.abs(moveX) > Math.abs(moveY)) {
+        e.preventDefault();
+    }
+
+}, { passive: false });
+
+
+// DETECTAR FIN DEL SWIPE
+slideshow.addEventListener('touchend', function (e) {
+
+    touchEndX = e.changedTouches[0].clientX;
+
+    handleSwipe();
+
+}, { passive: true });
+
+
+// CANCELAR GESTO INTERRUMPIDO
+slideshow.addEventListener('touchcancel', function () {
+
+    touchStartX = 0;
+    touchEndX = 0;
+
+});
+
+
+// REGISTRAR SWIPE SEGUN LA PANTALLA
+function handleSwipe() {
+
+    const swipeDistance = touchEndX - touchStartX;
+
+    if (swipeDistance < -50) {
+
+        registrarSwipe(currentIndex);
+        nextSlide();
+
+    } else if (swipeDistance > 50) {
+
+        registrarSwipe(currentIndex);
+        prevSlide();
+
+    }
+
+}
+
