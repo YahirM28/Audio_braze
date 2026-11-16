@@ -9890,6 +9890,300 @@ function mostrarPantalla(opcion) {
 </body>
 </html>
 
+16-11-3
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>In-App FutUYa</title>
+
+<style>
+
+body {
+    margin: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.inapp-container {
+    position: relative;
+    width: 330px;
+    height: 600px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #004c97;
+}
+
+/* PANTALLAS */
+
+.pantalla {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.pantalla.activa {
+    display: block;
+}
+
+/* IMAGENES Y GIF */
+
+.fondo {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    left: 0;
+    top: 0;
+}
+
+/* BOTON INVISIBLE SOBRE EL BOTON DEL GIF 1 */
+
+.boton-invisible {
+    position: absolute;
+    left: 35%;
+    top: 73%;
+    width: 30%;
+    height: 13%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* CTA PANTALLA 2 */
+
+.cta2 {
+    position: absolute;
+    left: 25%;
+    bottom: 21%;
+    width: 50%;
+    height: 48px;
+    background: #ffffff;
+    color: #004c97;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* CTA PANTALLA 3 */
+
+.cta3 {
+    position: absolute;
+    left: 22%;
+    bottom: 20%;
+    width: 56%;
+    height: 48px;
+    background: #ffffff;
+    color: #004c97;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* CERRAR */
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    background: transparent;
+    border: none;
+    color: #000000;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="inapp-container">
+
+    <!-- BOTON CERRAR -->
+
+    <button class="close-button"
+    onclick="brazeBridge.logClick('Close Message'); brazeBridge.closeMessage()">
+    X
+    </button>
+
+
+    <!-- ================================= -->
+    <!-- PANTALLA 1 - PRIMER GIF -->
+    <!-- ================================= -->
+
+    <div class="pantalla activa" id="pantalla1">
+
+        <img class="fondo"
+        src=""
+        alt="Primera animación">
+
+        <!-- AREA CLICKEABLE DEL BOTON DEL GIF -->
+
+        <button class="boton-invisible"
+        onclick="mostrarPantalla(2)">
+        </button>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- PANTALLA 2 - SEGUNDO GIF -->
+    <!-- ================================= -->
+
+    <div class="pantalla" id="pantalla2">
+
+        <img class="fondo"
+        src=""
+        alt="Segunda animación">
+
+        <!-- SEGUNDO CTA -->
+
+        <button class="cta2"
+        onclick="mostrarPantalla(3)">
+        CONTINUAR
+        </button>
+
+    </div>
+
+
+    <!-- ================================= -->
+    <!-- PANTALLA 3 - IMAGEN ESTATICA -->
+    <!-- ================================= -->
+
+    <div class="pantalla" id="pantalla3">
+
+        <img class="fondo"
+        src=""
+        alt="Pantalla final">
+
+        <!-- CTA FINAL CON LANDING -->
+
+        <a href=""
+        id="ctaFinal"
+        style="position:absolute; left:22%; bottom:20%;
+        width:56%; height:48px; z-index:3;
+        display:flex; align-items:center;
+        justify-content:center;
+        background:white; color:#004c97;
+        border-radius:10px; font-size:16px;
+        font-weight:bold; text-decoration:none;"
+        onclick="
+        brazeBridge.logClick('2');
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+            action: 'cta_final_landing'
+        })">
+        EMPIEZA AQUÍ
+        </a>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================================= */
+/* URL DE LAS IMAGENES */
+/* ================================= */
+
+/* GIF PANTALLA 1 */
+
+var gif1 = '';
+
+/* GIF PANTALLA 2 */
+
+var gif2 = '';
+
+/* IMAGEN ESTATICA PANTALLA 3 */
+
+var imagen3 = '';
+
+
+/* ================================= */
+/* CARGAR IMAGENES */
+/* ================================= */
+
+document.querySelector('#pantalla1 img').src = gif1;
+
+document.querySelector('#pantalla2 img').src = gif2;
+
+document.querySelector('#pantalla3 img').src = imagen3;
+
+
+/* ================================= */
+/* NAVEGACION ENTRE PANTALLAS */
+/* ================================= */
+
+function mostrarPantalla(numero) {
+
+    /* REGISTRO DE INTERACCION */
+
+    if (numero === 2) {
+
+        brazeBridge.logClick('0');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+            action: 'pantalla1_gif'
+        });
+
+    }
+
+    if (numero === 3) {
+
+        brazeBridge.logClick('1');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+            action: 'pantalla2_gif'
+        });
+
+    }
+
+
+    /* OCULTAR TODAS LAS PANTALLAS */
+
+    document.querySelectorAll('.pantalla').forEach(function(pantalla) {
+        pantalla.classList.remove('activa');
+    });
+
+
+    /* MOSTRAR PANTALLA SELECCIONADA */
+
+    document.getElementById('pantalla' + numero)
+    .classList.add('activa');
+
+}
+
+</script>
+
+</body>
+</html>
+
+
+
 
 
 
