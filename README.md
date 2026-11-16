@@ -9072,3 +9072,608 @@ function handleSwipe() {
 
 }
 
+
+11-18
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Carrusel Braze - Tragamonedas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: rgba(0,0,0,.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 330px;
+            height: 600px;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform .5s ease-in-out;
+        }
+
+        .carousel-images img {
+            width: 100%;
+            flex: 0 0 100%;
+        }
+
+        .button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        .prev { left: 0; }
+        .next { right: 0; }
+
+        .braze-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none;
+        }
+
+        .monto-contenedor {
+            position: absolute;
+            top: 22%;
+            width: 100%;
+            text-align: center;
+            color: #FF7900;
+            font-size: 28px;
+        }
+
+        .monto-contenedor2 {
+            position: absolute;
+            top: 70px;
+            width: 100%;
+            text-align: center;
+            color: #FF7900;
+            font-size: 28px;
+        }
+
+        .monto-contenedor3 {
+            position: absolute;
+            top: 21%;
+            width: 100%;
+            text-align: center;
+            color: #FF7900;
+            font-size: 28px;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 20;
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cta-screen2 {
+            position: absolute;
+            bottom: 20%;
+            width: 100%;
+            text-align: center;
+            z-index: 15;
+            display: none;
+        }
+
+        .cta-screen2 img {
+            width: 180px;
+            max-width: 80%;
+            cursor: pointer;
+        }
+
+        /* TRAGAMONEDAS */
+        .casino-container {
+            position: absolute;
+            top: 22%;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .casino-reel {
+            width: 48px;
+            height: 72px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(180deg,#170808,#3A1010,#170808);
+            border: 2px solid #B87525;
+            border-radius: 7px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,.9),0 0 5px rgba(255,121,0,.5);
+        }
+
+        .casino-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translateY(0);
+            transition: transform 2.5s cubic-bezier(.12,.65,.15,1);
+        }
+
+        .casino-digit {
+            height: 72px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial,sans-serif;
+            font-size: 54px;
+            font-weight: 900;
+            color: #FF2020;
+        }
+
+        .casino-reel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: linear-gradient(180deg,rgba(0,0,0,.45),transparent 25%,transparent 75%,rgba(0,0,0,.45));
+        }
+
+        /* OPCIONES VERTICALES */
+        .quiz-options {
+            position: absolute;
+            bottom: 13%;
+            left: 10%;
+            width: 80%;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 15;
+        }
+
+        .quiz-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            width: 100%;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: white;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .quiz-label {
+            font-size: 11px;
+            font-weight: bold;
+            text-shadow: 0 1px 4px #000;
+        }
+
+        .quiz-rectangle {
+            width: 100%;
+            height: 38px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,.75);
+            border-radius: 8px;
+            background: rgba(15,15,15,.78);
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            transition: .2s;
+        }
+
+        /* OPCIÓN CORRECTA */
+        .quiz-option.correct .quiz-rectangle {
+            border: 3px solid #19d66b !important;
+            background: rgba(0,150,65,.35);
+            box-shadow: 0 0 14px rgba(25,214,107,.8);
+        }
+
+        /* OPCIÓN INCORRECTA */
+        .quiz-option.wrong .quiz-rectangle {
+            border: 3px solid #ff3030;
+            background: rgba(150,0,0,.35);
+            box-shadow: 0 0 12px rgba(255,48,48,.65);
+        }
+
+        .quiz-attribute {
+            color: #19d66b;
+            font-size: 16px;
+            font-weight: 900;
+            text-shadow: 0 2px 5px #000;
+        }
+
+        /* MENSAJE DESPUÉS DE RESPONDER */
+        .quiz-feedback {
+            position: absolute;
+            bottom: 5%;
+            left: 10%;
+            width: 80%;
+            height: 38px;
+            box-sizing: border-box;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,.85);
+            border-radius: 8px;
+            background: rgba(15,15,15,.9);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 16;
+        }
+
+        @media (max-width: 360px) {
+            .quiz-options {
+                left: 8%;
+                width: 84%;
+                gap: 6px;
+            }
+
+            .quiz-rectangle {
+                height: 34px;
+                font-size: 14px;
+            }
+
+            .quiz-feedback {
+                left: 8%;
+                width: 84%;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="slideshow-container">
+
+    <!-- IMÁGENES -->
+    <div class="carousel-images">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69459cd14e66190063e4ba2b/original.png?1766169806" alt="Pantalla 1">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69459f9d8c0ccc00643e9cea/original.png?1766170521" alt="Pantalla 2">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69459d9917a948006311d810/original.png?1766170006" alt="Pantalla 3">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69459e955e5ff40073845cd7/original.png?1766170258" alt="Pantalla 4">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/69459d9917a948006311d810/original.png?1766170006" alt="Pantalla 5">
+    </div>
+
+    <!-- CTA PANTALLA 2 -->
+    <div id="cta-screen2" class="cta-screen2">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6af662a893ba630093374b19/original.png?1794532007" alt="Descubrir atributo" onclick="mostrarAtributo()">
+    </div>
+
+    <!-- ATRIBUTO PANTALLA 2 -->
+    <div id="braze-overlay" class="braze-overlay monto-contenedor">
+        <b>2026</b>
+    </div>
+
+    <!-- ATRIBUTO PANTALLA 3 -->
+    <div id="braze-overlay-2" class="braze-overlay monto-contenedor2">
+        <b>2027</b>
+    </div>
+
+    <!-- ATRIBUTO PANTALLA 4 -->
+    <div id="braze-overlay-3" class="braze-overlay monto-contenedor3">
+        <b>{{custom_attribute.${total_screen4} | default: '0'}}</b>
+    </div>
+
+    <!-- OPCIONES PANTALLA 3 -->
+    <div id="quiz-options" class="quiz-options">
+
+        <button class="quiz-option" id="quiz-option-1" onclick="seleccionarOpcion(1)" type="button">
+            <span class="quiz-rectangle">2025</span>
+        </button>
+
+        <button class="quiz-option" id="quiz-option-2" onclick="seleccionarOpcion(2)" type="button">
+            <span class="quiz-rectangle">2026</span>
+        </button>
+
+        <button class="quiz-option" id="quiz-option-3" onclick="seleccionarOpcion(3)" type="button">
+            <span id="quiz-attribute-additional" class="quiz-attribute">
+                {{custom_attribute.${atributo_adicional} | default: '2027'}}
+            </span>
+            <span class="quiz-rectangle"></span>
+        </button>
+
+    </div>
+
+    <!-- MENSAJE DINÁMICO -->
+    <div id="quiz-feedback" class="quiz-feedback"></div>
+
+    <!-- CERRAR -->
+    <button class="close-button" onclick='brazeBridge.logClick("Close Message"); brazeBridge.closeMessage()'>X</button>
+
+    <!-- FLECHA ANTERIOR -->
+    <button class="button prev" onclick="prevSlide()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25">
+            <path d="M24,12A12,12,0,1,0,12,24,12.013,12.013,0,0,0,24,12ZM2,12A10,10,0,1,1,12,22,10.011,10.011,0,0,1 12,2 10.011,10.011,0,0,1 2,12Zm8.879 5.707a1 1 0 0 0 0-1.414L7.587 13 18 12.993a1 1 0 0 0 0-2L7.586 11l3.293-3.293A1 1 0 1 0 9.49 6.269l-.025.024L5.879 9.878a3 3 0 0 0 0 4.243h0l3.586 3.586A1 1 0 0 0 10.879 17.707Z"/>
+        </svg>
+    </button>
+
+    <!-- FLECHA SIGUIENTE -->
+    <button class="button next" onclick="nextSlide()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25">
+            <path d="M0,12A12,12,0,1,0,12,0,12.013,12.013,0,0,0 0,12Zm22,0A10,10,0,1,1 12,2 10.011,10.011,0,0,1 22,12ZM13.121 6.293a1 1 0 0 0 0 1.414L16.413 11 6 11.007a1 1 0 1 0 0 2L16.414 13l-3.293 3.293a1 1 0 1 0 1.389 1.438l.025-.024 3.586-3.585a1 1 0 0 0 0-4.243h0L14.535 6.293A1 1 0 0 0 13.121 6.293Z"/>
+        </svg>
+    </button>
+
+</div>
+
+<script>
+    const carouselImages = document.querySelector('.carousel-images');
+    const images = document.querySelectorAll('.carousel-images img');
+    const ctaScreen2 = document.getElementById('cta-screen2');
+    const atributoScreen2 = document.getElementById('braze-overlay');
+    const atributoScreen3 = document.getElementById('braze-overlay-2');
+    const quizOptions = document.getElementById('quiz-options');
+    const quizFeedback = document.getElementById('quiz-feedback');
+
+    let currentIndex = 0;
+    let ctaClickedScreen2 = false;
+    let casinoTimers = [];
+    let opcionElegida = null;
+
+    function cancelarCasino() {
+        casinoTimers.forEach(timer => clearTimeout(timer));
+        casinoTimers = [];
+    }
+
+    /* CREAR TRAGAMONEDAS */
+    function crearCasino(valorFinal) {
+        cancelarCasino();
+
+        const casino = document.createElement('div');
+        casino.className = 'casino-container';
+
+        const caracteres = valorFinal.split('');
+        const alturaDigito = 72;
+
+        caracteres.forEach((caracter, index) => {
+            if (/[0-9]/.test(caracter)) {
+                const reel = document.createElement('div');
+                reel.className = 'casino-reel';
+
+                const strip = document.createElement('div');
+                strip.className = 'casino-strip';
+
+                const cantidadVueltas = 25;
+
+                for (let i = 0; i < cantidadVueltas; i++) {
+                    const digit = document.createElement('div');
+                    digit.className = 'casino-digit';
+                    digit.textContent = Math.floor(Math.random() * 10);
+                    strip.appendChild(digit);
+                }
+
+                const resultado = document.createElement('div');
+                resultado.className = 'casino-digit';
+                resultado.textContent = caracter;
+                strip.appendChild(resultado);
+
+                reel.appendChild(strip);
+                casino.appendChild(reel);
+
+                reel.dataset.finalPosition = cantidadVueltas * alturaDigito;
+            } else {
+                const simbolo = document.createElement('div');
+                simbolo.className = 'casino-digit';
+                simbolo.style.width = 'auto';
+                simbolo.style.padding = '0 4px';
+                simbolo.textContent = caracter;
+                casino.appendChild(simbolo);
+            }
+        });
+
+        return casino;
+    }
+
+    /* ANIMAR TRAGAMONEDAS */
+    function iniciarCasino(casino) {
+        const reels = casino.querySelectorAll('.casino-reel');
+
+        reels.forEach((reel, index) => {
+            const strip = reel.querySelector('.casino-strip');
+            const posicionFinal = Number(reel.dataset.finalPosition);
+
+            const timer = setTimeout(() => {
+                strip.style.transform = `translateY(-${posicionFinal}px)`;
+            }, index * 180);
+
+            casinoTimers.push(timer);
+        });
+    }
+
+    /* PANTALLA 2 */
+    function mostrarAtributo() {
+        if (ctaClickedScreen2) return;
+
+        ctaClickedScreen2 = true;
+        ctaScreen2.style.display = 'none';
+
+        const valorFinal = atributoScreen2.querySelector('b').textContent.trim();
+        const casino = crearCasino(valorFinal);
+
+        atributoScreen2.innerHTML = '';
+        atributoScreen2.appendChild(casino);
+        atributoScreen2.style.display = 'block';
+
+        requestAnimationFrame(() => iniciarCasino(casino));
+
+        document.querySelectorAll('.button').forEach(button => {
+            button.style.display = 'block';
+        });
+    }
+
+    function resetPantalla2() {
+        cancelarCasino();
+        atributoScreen2.innerHTML = '<b>2026</b>';
+    }
+
+    function resetPantalla3() {
+        cancelarCasino();
+        atributoScreen3.innerHTML = '<b>2027</b>';
+    }
+
+    /* SELECCIÓN Y MENSAJE */
+    function seleccionarOpcion(opcion) {
+        opcionElegida = opcion;
+
+        document.querySelectorAll('.quiz-option').forEach(el => {
+            el.classList.remove('wrong', 'correct');
+        });
+
+        document.getElementById('quiz-option-3').classList.add('correct');
+
+        if (opcion === 1 || opcion === 2) {
+            document.getElementById('quiz-option-' + opcion).classList.add('wrong');
+            quizFeedback.textContent = '¿Te lo esperabas?';
+        } else {
+            quizFeedback.textContent = '¿Lo sabías?';
+        }
+
+        quizFeedback.style.display = 'flex';
+    }
+
+    function resetOpcionesQuiz() {
+        opcionElegida = null;
+
+        document.querySelectorAll('.quiz-option').forEach(el => {
+            el.classList.remove('wrong', 'correct');
+        });
+
+        quizFeedback.textContent = '';
+        quizFeedback.style.display = 'none';
+    }
+
+    /* VALOR DEL ATRIBUTO DE PANTALLA 4 */
+    function valorTotalScreen4() {
+        const texto = document.getElementById('braze-overlay-3').querySelector('b').textContent.trim();
+        const valor = Number(texto.replace(/,/g, ''));
+        return Number.isFinite(valor) ? valor : 0;
+    }
+
+    /* NAVEGACIÓN */
+    function showSlide(index) {
+        const totalImages = images.length;
+
+        // Si pantalla 4 tiene 0, se omite y se muestra pantalla 5.
+        if (index === 3 && valorTotalScreen4() <= 0) {
+            index = 4;
+        }
+
+        if (index >= totalImages) {
+            currentIndex = 0;
+        } else if (index < 0) {
+            currentIndex = totalImages - 1;
+        } else {
+            currentIndex = index;
+        }
+
+        cancelarCasino();
+
+        carouselImages.style.transform = `translateX(${-currentIndex * 100}%)`;
+
+        document.querySelectorAll('.braze-overlay').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        ctaScreen2.style.display = 'none';
+        quizOptions.style.display = 'none';
+        quizFeedback.style.display = 'none';
+
+        document.querySelectorAll('.button').forEach(button => {
+            button.style.display = 'block';
+        });
+
+        /* PANTALLA 2 */
+        if (currentIndex === 1) {
+            ctaClickedScreen2 = false;
+            resetPantalla2();
+
+            ctaScreen2.style.display = 'block';
+
+            document.querySelectorAll('.button').forEach(button => {
+                button.style.display = 'none';
+            });
+        }
+
+        /* PANTALLA 3 */
+        if (currentIndex === 2) {
+            resetPantalla3();
+            resetOpcionesQuiz();
+
+            const timerPantalla3 = setTimeout(() => {
+                if (currentIndex !== 2) return;
+
+                const valorFinal3 = atributoScreen3.querySelector('b').textContent.trim();
+                const casino3 = crearCasino(valorFinal3);
+
+                atributoScreen3.innerHTML = '';
+                atributoScreen3.appendChild(casino3);
+                atributoScreen3.style.display = 'block';
+
+                quizOptions.style.display = 'flex';
+
+                requestAnimationFrame(() => iniciarCasino(casino3));
+            }, 1000);
+
+            casinoTimers.push(timerPantalla3);
+        }
+
+        /* PANTALLA 4 */
+        if (currentIndex === 3) {
+            document.getElementById('braze-overlay-3').style.display = 'block';
+        }
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+        // Si pantalla 4 está omitida, desde pantalla 5 se regresa a pantalla 3.
+        if (currentIndex === 4 && valorTotalScreen4() <= 0) {
+            showSlide(2);
+        } else {
+            showSlide(currentIndex - 1);
+        }
+    }
+
+    showSlide(0);
+</script>
+
+</body>
+</html>
+
+
