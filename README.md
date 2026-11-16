@@ -9677,3 +9677,219 @@ function handleSwipe() {
 </html>
 
 
+--- 
+16-11-2
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mensaje In-App</title>
+
+<style>
+
+body {
+    margin: 0;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.inapp-container {
+    position: relative;
+    width: 330px;
+    height: 600px;
+    background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/6afb3026b6de740094b4b107/original.jpg?1794846758');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Botón cerrar */
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 10;
+    background: transparent;
+    color: #000;
+    border: none;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Opciones de respuesta */
+
+.opcion {
+    position: absolute;
+    top: 69%;
+    height: 15%;
+    width: 27%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.opcion1 {
+    left: 7%;
+}
+
+.opcion2 {
+    left: 36.5%;
+}
+
+.opcion3 {
+    left: 66%;
+}
+
+/* CTA de las pantallas de respuesta */
+
+.cta-hotspot {
+    position: absolute;
+    left: 22%;
+    top: 84%;
+    width: 56%;
+    height: 7%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: none;
+    z-index: 3;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="inapp-container" id="inapp">
+
+    <!-- Cerrar In-App -->
+
+    <button class="close-button"
+        onclick="brazeBridge.logClick('Close Message'); brazeBridge.closeMessage()">
+        X
+    </button>
+
+
+    <!-- OPCIÓN 1: $30 -->
+
+    <button class="opcion opcion1"
+        onclick="mostrarPantalla(1)">
+    </button>
+
+
+    <!-- OPCIÓN 2: $50 -->
+
+    <button class="opcion opcion2"
+        onclick="mostrarPantalla(2)">
+    </button>
+
+
+    <!-- OPCIÓN 3: $65 -->
+
+    <button class="opcion opcion3"
+        onclick="mostrarPantalla(3)">
+    </button>
+
+
+    <!-- CTA DE LAS PANTALLAS DE RESPUESTA -->
+
+    <a href="PEGA_AQUI_TU_DEEP_LINK"
+       class="cta-hotspot"
+       id="cta"
+       onclick="
+       brazeBridge.logClick('CTA');
+       brazeBridge.logCustomEvent('Interaccion', {
+           inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+           action: 'body_clic_solicitar'
+       })">
+    </a>
+
+</div>
+
+
+<script>
+
+/* URL DE LAS 3 PANTALLAS */
+
+/* Pantalla correspondiente a $30 */
+var imagen1 = 'PEGA_AQUI_URL_IMAGEN_30';
+
+/* Pantalla correspondiente a $50 */
+var imagen2 = 'PEGA_AQUI_URL_IMAGEN_50';
+
+/* Pantalla correspondiente a $65 */
+var imagen3 = 'PEGA_AQUI_URL_IMAGEN_65';
+
+
+function mostrarPantalla(opcion) {
+
+    var contenedor = document.getElementById('inapp');
+    var cta = document.getElementById('cta');
+
+    /* Ocultar las tres opciones */
+
+    document.querySelectorAll('.opcion').forEach(function(boton) {
+        boton.style.display = 'none';
+    });
+
+    /* Cambiar a la imagen correspondiente */
+
+    if (opcion === 1) {
+        contenedor.style.backgroundImage = "url('" + imagen1 + "')";
+
+        brazeBridge.logClick('0');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+            action: 'seleccion_opcion_30'
+        });
+
+    } else if (opcion === 2) {
+        contenedor.style.backgroundImage = "url('" + imagen2 + "')";
+
+        brazeBridge.logClick('1');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+            action: 'seleccion_opcion_50'
+        });
+
+    } else if (opcion === 3) {
+        contenedor.style.backgroundImage = "url('" + imagen3 + "')";
+
+        brazeBridge.logClick('2');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: 'TXN-canal digital-A-mix_bienvenida_202608_12',
+            action: 'seleccion_opcion_65'
+        });
+    }
+
+    /* Mostrar el área clickeable del CTA */
+
+    cta.style.display = 'block';
+
+}
+
+</script>
+
+</body>
+</html>
+
+
+
+
