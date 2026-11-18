@@ -10182,6 +10182,356 @@ function mostrarPantalla(numero) {
 </body>
 </html>
 
+18-11
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensaje In-App</title>
+
+<style>
+
+a.full-background {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.inapp-container {
+    position: relative;
+    z-index: 1;
+    width: 330px;
+    height: 600px;
+    background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf6a050cf7e00ad8e918d/original.png?1795028637');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    overflow: visible;
+    color: #1677D8;
+}
+
+.monto-contenedor {
+    position: absolute;
+    bottom: 300px;
+    width: 100%;
+    text-align: center;
+    /* font-weight: bold; */
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(28px, 4vw, 28px);
+}
+
+.boton-descubre {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+    height: 50px;
+    background-color: white;
+    color: #004c97;
+    border: none;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.monto-contenedor {
+    position: absolute;
+    bottom: 300px;
+    width: 100%;
+    text-align: center;
+    /* font-weight: bold; */
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(28px, 4vw, 28px);
+}
+
+.Texto-abajo {
+    position: absolute;
+    bottom: 120px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.countdown {
+    position: absolute;
+    bottom: 60px;
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.countdown div {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 8px;
+    min-width: 50px;
+}
+
+.countdown .number {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+}
+
+.countdown .label {
+    font-size: 12px;
+}
+
+.img_flo {
+    position: absolute;
+    bottom: 90px;
+    width: 70%;
+    right: 50px;
+    overflow: visible;
+}
+
+.img_flou {
+    position: absolute;
+    bottom: 30px;
+    width: 70%;
+    right: 50px;
+    overflow: visible;
+}
+
+.img_flo2 {
+    position: absolute;
+    top: 50px;
+    width: 20%;
+    right: -50px;
+    overflow: visible;
+}
+
+.img_flo3 {
+    position: absolute;
+    bottom: 60px;
+    width: 10%;
+    right: 0px;
+    overflow: visible;
+}
+
+.img_flo4 {
+    position: absolute;
+    top: 50px;
+    width: 20%;
+    left: -50px;
+    overflow: visible;
+}
+
+@keyframes money {
+    0% {
+        opacity: 0;
+        transform: translateY(-380px);
+    }
+
+    7% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(1000px);
+    }
+}
+
+.anim1 {
+    animation: money 20s ease-in forwards infinite;
+}
+
+@keyframes bounceInOut {
+    0% {
+        transform: translate(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0px);
+    }
+}
+
+.anim7 {
+    animation: bounceInOut 1.0s infinite;
+}
+
+
+/* ESTRELLAS DETRÁS DEL IN-APP */
+
+.estrellas-fondo {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.estrella-caida {
+    position: absolute;
+    top: -50px;
+    animation: caerEstrella 14s linear infinite;
+}
+
+.estrella-caida img {
+    width: 100%;
+    height: auto;
+    display: block;
+    animation: girarEstrella 7s linear infinite;
+}
+
+@keyframes caerEstrella {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(110vh);
+    }
+}
+
+@keyframes girarEstrella {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- CAPA DE 8 ESTRELLAS -->
+
+<div class="estrellas-fondo">
+
+    <div class="estrella-caida" style="left: 4%; width: 22px; animation-delay: 0s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+    <div class="estrella-caida" style="left: 15%; width: 32px; animation-delay: -3s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+    <div class="estrella-caida" style="left: 27%; width: 17px; animation-delay: -6s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+    <div class="estrella-caida" style="left: 40%; width: 28px; animation-delay: -9s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+    <div class="estrella-caida" style="left: 57%; width: 20px; animation-delay: -2s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+    <div class="estrella-caida" style="left: 70%; width: 35px; animation-delay: -5s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+    <div class="estrella-caida" style="left: 84%; width: 24px; animation-delay: -8s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+    <div class="estrella-caida" style="left: 95%; width: 18px; animation-delay: -11s;">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afdf8ec684eed00949c2199/original.png?1795029227" alt="">
+    </div>
+
+</div>
+
+
+<!-- IN-APP ORIGINAL -->
+
+<div class="inapp-container">
+
+    <a href="bgeneralprod://personal/credit-card/renewal-form"
+       class="full-background"
+       onclick="brazeBridge.logClick('body_clic_cta2todo');
+
+       brazeBridge.logCustomEvent('Interaccion',
+       {
+          inapp_id: 'TCACT-RENOSTCR-M-inapp_renosestrellas_202603_26',
+          action: 'body_clic_cta2todo'
+       }
+       )">
+    </a>
+
+    <button class="close-button" href="#"
+        onclick='brazeBridge.logClick("Close Message"); brazeBridge.closeMessage()'>X</button>
+
+</div>
+
+</body>
+</html>
+
+
 
 
 
