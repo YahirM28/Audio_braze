@@ -10532,6 +10532,1859 @@ body {
 </html>
 
 
+19-11
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Carrusel Braze - Tragamonedas</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            background-color: rgba(0,0,0,.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .slideshow-container {
+            position: relative;
+            width: 330px;
+            height: 600px;
+            margin: auto;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .carousel-images {
+            display: flex;
+            transition: transform .5s ease-in-out;
+        }
+
+        .carousel-images img {
+            width: 100%;
+            flex: 0 0 100%;
+        }
+
+        .button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 20;
+        }
+
+        .prev { left: 0; }
+        .next { right: 0; }
+
+        .braze-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: none;
+        }
+
+        .monto-contenedor {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: #FF7900;
+            font-size: 28px;
+        }
+
+        .monto-contenedor2 {
+            position: absolute;
+            top: 30px;
+            width: 100%;
+            text-align: center;
+            color: #FF7900;
+            font-size: 28px;
+        }
+
+        .monto-contenedor3 {
+            position: absolute;
+            top: 45%;
+            text-align: center;
+            height: 72px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 75px;
+            font-weight: 900;
+            color: #004c97;
+        }
+
+        /* ANIMACIÓN PANTALLA 4 - WRAPPED */
+
+        @keyframes wrappedReveal {
+            0% {
+                opacity: 0;
+                transform: scale(.3);
+            }
+
+            60% {
+                opacity: 1;
+                transform: scale(1.35);
+            }
+
+            80% {
+                transform: scale(.90);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .monto-contenedor3.wrapped-animation {
+            animation: wrappedReveal 2s cubic-bezier(.2,.8,.3,1) both;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 20;
+            color: #000;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cta-screen2 {
+            position: absolute;
+            bottom: 20%;
+            width: 100%;
+            text-align: center;
+            z-index: 15;
+            display: none;
+        }
+
+        .cta-screen2 img {
+            width: 180px;
+            max-width: 80%;
+            cursor: pointer;
+        }
+
+        /* TRAGAMONEDAS */
+
+        .casino-container {
+            position: absolute;
+            top: 22%;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .casino-container-screen3 {
+            gap: -80px;
+        }
+
+        .casino-reel {
+            width: 48px;
+            height: 72px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(180deg,#1677D8,#1677D8,#1677D8);
+            border: 2px solid #00A3E1;
+            border-radius: 7px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,.1),0 0 5px rgba(255,121,0,.1);
+        }
+
+        .casino-reel-screen3 {
+            width: 36px;
+            border: none;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .casino-reel-screen3::before {
+            display: none;
+        }
+
+        .casino-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            transform: translateY(0);
+            transition: transform 2.5s cubic-bezier(.12,.65,.15,1);
+        }
+
+        .casino-digit {
+            height: 72px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 54px;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .casino-digit-screen3 {
+            height: 72px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 54px;
+            font-weight: 900;
+            color: #00A3E1;
+        }
+
+        .casino-reel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+            background: linear-gradient(180deg,rgba(0,0,0,.45),transparent 25%,transparent 75%,rgba(0,0,0,.45));
+        }
+
+        /* OPCIONES VERTICALES */
+
+        .quiz-options {
+            position: absolute;
+            bottom: 17%;
+            left: 10%;
+            width: 80%;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 15;
+        }
+
+        .quiz-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            width: 100%;
+            padding: 0;
+            border: none;
+            background: transparent;
+            color: white;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .quiz-label {
+            font-size: 11px;
+            font-weight: bold;
+            text-shadow: 0 1px 4px #000;
+        }
+
+        .quiz-rectangle {
+            width: 90%;
+            min-height: 38px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,.75);
+            border-radius: 16px;
+            background: #00A3E1;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            transition: .2s;
+            padding: 5px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .quiz-option.correct .quiz-rectangle {
+            border: 3px solid #19d66b !important;
+            background: rgba(0,150,65,.35);
+            box-shadow: 0 0 14px rgba(25,214,107,.8);
+        }
+
+        .quiz-option.wrong .quiz-rectangle {
+            border: 3px solid #ff3030;
+            background: rgba(150,0,0,.35);
+            box-shadow: 0 0 12px rgba(255,48,48,.65);
+        }
+
+        .quiz-attribute {
+            color: #19d66b;
+            font-size: 16px;
+            font-weight: 900;
+            text-shadow: 0 2px 5px #000;
+        }
+
+        .quiz-feedback {
+            position: absolute;
+            bottom: 6%;
+            left: 14%;
+            width: 72%;
+            height: 48px;
+            box-sizing: border-box;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid rgba(255,255,255,.85);
+            border-radius: 8px;
+            background: #7DC030;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 16;
+        }
+
+        .quiz-feedback.correct-feedback {
+            background: #7DC030;
+            border: 2px solid rgba(255,255,255,.85);
+            color: #ffffff;
+        }
+
+        .quiz-feedback.wrong-feedback {
+            background: #FF7900;
+            border: 2px solid rgba(255,255,255,.85);
+            color: #ffffff;
+        }
+
+        /* IMAGEN DINÁMICA PANTALLA 5 */
+
+        .screen5-character {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            top: 8%;
+            object-fit: contain;
+            z-index: 8;
+            display: none;
+            pointer-events: none;
+        }
+
+        /* PANTALLA 6 */
+
+        .screen6-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 11;
+            display: none;
+            pointer-events: none;
+        }
+
+        .screen6-attribute {
+            position: absolute;
+            left: 6%;
+            width: 85%;
+            min-height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            font-size: 52px;
+            font-weight: 900;
+            color: #004c97;
+            text-shadow: 0 2px 4px rgba(0,0,0,.15);
+        }
+
+        .screen6-attribute2 {
+            position: absolute;
+            left: 10%;
+            width: 80%;
+            min-height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+            color: #004c97;
+            text-shadow: 0 2px 4px rgba(0,0,0,.15);
+        }
+
+        #screen6-attribute-1 {
+            top: 30%;
+        }
+
+        #screen6-attribute-2 {
+            top: 55%;
+        }
+
+        .forming-char {
+            display: inline-block;
+            white-space: pre;
+            opacity: 0;
+            transform: translateY(35px) scale(.2) rotate(-20deg);
+            animation: formCharacter .65s cubic-bezier(.2,.8,.3,1) forwards;
+        }
+
+        @keyframes formCharacter {
+            0% {
+                opacity: 0;
+                transform: translateY(35px) scale(.2) rotate(-20deg);
+                filter: blur(8px);
+            }
+
+            60% {
+                opacity: 1;
+                transform: translateY(-8px) scale(1.2) rotate(4deg);
+                filter: blur(0);
+            }
+
+            80% {
+                transform: translateY(3px) scale(.95) rotate(0);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0);
+                filter: blur(0);
+            }
+        }
+
+        /* PANTALLA 7 - RESUMEN */
+
+        .screen7-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 12;
+            display: none;
+            pointer-events: none;
+        }
+
+        .screen7-item {
+            position: absolute;
+            left: 8%;
+            width: 84%;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            color: #ffffff;
+        }
+
+        .screen7-label {
+            font-size: 12px;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+
+        .screen7-value {
+            font-size: 18px;
+            font-weight: 400;
+            overflow-wrap: anywhere;
+            font-family: 'Inter', sans-serif;
+        }
+
+        #screen7-item-1 {
+            top: 190px;
+            left: 35px;
+        }
+
+        #screen7-item-2 {
+            top: 270px;
+            left: 4px;
+        }
+
+        #screen7-item-3 {
+            top: 370px;
+            left: 50px;
+        }
+
+        #screen7-item-4 {
+            top: 451px;
+            left: 70px;
+        }
+
+        /* CTA VOLVER */
+
+        .screen7-back-cta {
+            position: absolute;
+            bottom: 3%;
+            left: 5%;
+            width: 65px;
+            z-index: 25;
+            cursor: pointer;
+            display: none;
+        }
+
+        .screen7-back-cta img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* CTA COMPARTIR */
+
+        .screen7-share-cta {
+            position: absolute;
+            bottom: 3%;
+            right: 5%;
+            width: 65px;
+            z-index: 25;
+            cursor: pointer;
+            display: none;
+        }
+
+        .screen7-share-cta img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 360px) {
+            .quiz-options {
+                left: 8%;
+                width: 84%;
+                gap: 6px;
+            }
+
+            .quiz-rectangle {
+                min-height: 34px;
+                font-size: 14px;
+            }
+
+            .quiz-feedback {
+                left: 8%;
+                width: 84%;
+                font-size: 13px;
+            }
+
+            .screen6-attribute {
+                font-size: 42px;
+            }
+
+            .screen7-value {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="slideshow-container">
+
+    <!-- IMÁGENES DEL CARRUSEL -->
+
+    <div class="carousel-images">
+
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afca287dca6d500901b091a/original.png?1794941573" alt="Pantalla 1">
+
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afca3262d1a3900ab36ec92/original.png?1794941732" alt="Pantalla 2">
+
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6afe140a68523c0090a49cc3/original.png?1795036168" alt="Pantalla 3">
+
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6aff03115b6e700092f7fac5/original.png?1795097358" alt="Pantalla 4">
+
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6aff0be7de91640094a548d6/original.png?1795099620" alt="Pantalla 5">
+
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6aff249f28ccea00abfa7ac3/original.png?1795105950" alt="Pantalla 6">
+
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6aff3a9a574f720094ea1bd6/original.png?1795111577" alt="Pantalla 7">
+
+    </div>
+
+    <!-- CTA PANTALLA 2 -->
+
+    <div id="cta-screen2" class="cta-screen2">
+        <img src="https://braze-images.com/appboy/communication/assets/image_assets/images/6af662a893ba630093374b19/original.png?1794532007" alt="Descubrir atributo" onclick="mostrarAtributo()">
+    </div>
+
+    <!-- ATRIBUTO PANTALLA 2 -->
+
+    <div id="braze-overlay" class="braze-overlay monto-contenedor">
+        <b>2000</b>
+    </div>
+
+    <!-- ATRIBUTO PANTALLA 3 -->
+
+    <div id="braze-overlay-2" class="braze-overlay monto-contenedor2">
+        <b>2027</b>
+    </div>
+
+    <!-- ATRIBUTO PANTALLA 4 -->
+
+    <div id="braze-overlay-3" class="braze-overlay monto-contenedor3">
+        <b>2000</b>
+    </div>
+
+    <!-- ATRIBUTO ADICIONAL PARA EL QUIZ -->
+
+    <span id="quiz-attribute-additional" hidden>Pagos</span>
+
+    <!-- ATRIBUTO OCULTO PARA PANTALLA 5 -->
+
+    <span id="screen5-attribute" hidden>El que va pa´ lante</span>
+
+    <!-- IMAGEN DINÁMICA PANTALLA 5 -->
+
+    <img
+        id="screen5-character"
+        class="screen5-character"
+        src=""
+        alt=""
+    >
+
+    <!-- ATRIBUTOS OCULTOS PANTALLA 6 -->
+
+    <span id="screen6-hidden-attribute-1" hidden>15</span>
+
+    <span id="screen6-hidden-attribute-2" hidden>Una cuenta de navidad</span>
+
+    <!-- CONTENEDOR VISIBLE DE LOS DOS ATRIBUTOS -->
+
+    <div id="screen6-overlay" class="screen6-overlay">
+
+        <div id="screen6-attribute-1" class="screen6-attribute"></div>
+
+        <div id="screen6-attribute-2" class="screen6-attribute2"></div>
+
+    </div>
+
+    <!-- RESUMEN PANTALLA 7 -->
+
+    <div id="screen7-overlay" class="screen7-overlay">
+
+        <div id="screen7-item-1" class="screen7-item">
+            <div class="screen7-label"></div>
+            <div id="screen7-value-1" class="screen7-value"></div>
+        </div>
+
+        <div id="screen7-item-2" class="screen7-item">
+            <div class="screen7-label"></div>
+            <div id="screen7-value-2" class="screen7-value"></div>
+        </div>
+
+        <div id="screen7-item-3" class="screen7-item">
+            <div class="screen7-label"></div>
+            <div id="screen7-value-3" class="screen7-value"></div>
+        </div>
+
+        <div id="screen7-item-4" class="screen7-item">
+            <div class="screen7-label"></div>
+            <div id="screen7-value-4" class="screen7-value"></div>
+        </div>
+
+    </div>
+
+    <!-- CTA VOLVER AL INICIO -->
+
+    <div
+        id="screen7-back-cta"
+        class="screen7-back-cta"
+        onclick="volverInicio()">
+
+        <img src="" alt="Volver al inicio">
+
+    </div>
+
+    <!-- CTA COMPARTIR -->
+
+    <div
+        id="screen7-share-cta"
+        class="screen7-share-cta"
+        onclick="compartirPantalla7()">
+
+        <img src="" alt="Compartir">
+
+    </div>
+
+    <!-- OPCIONES PANTALLA 3 -->
+
+    <div id="quiz-options" class="quiz-options"></div>
+
+    <!-- MENSAJE DINÁMICO -->
+
+    <div id="quiz-feedback" class="quiz-feedback"></div>
+
+    <!-- CERRAR -->
+
+    <button
+        class="close-button"
+        onclick='brazeBridge.logClick("Close Message"); brazeBridge.closeMessage()'>X</button>
+
+    <button
+        class="button prev"
+        onclick="prevSlide()">
+
+        <svg width="25" height="24" viewBox="0 0 24 24" fill="none" stroke="#00A3E1" stroke-width="4">
+            <path d="M19 12H5M11 5L4 12l7 7" />
+        </svg>
+
+    </button>
+
+    <button
+        class="button next"
+        onclick="nextSlide()">
+
+        <svg width="25" height="24" viewBox="0 0 24 24" fill="none" stroke="#00A3E1" stroke-width="4">
+            <path d="M5 12h14M13 5l7 7-7 7" />
+        </svg>
+
+    </button>
+
+</div>
+
+<script>
+
+    const carouselImages = document.querySelector('.carousel-images');
+    const images = document.querySelectorAll('.carousel-images img');
+
+    const ctaScreen2 = document.getElementById('cta-screen2');
+    const atributoScreen2 = document.getElementById('braze-overlay');
+    const atributoScreen3 = document.getElementById('braze-overlay-2');
+
+    const quizOptions = document.getElementById('quiz-options');
+    const quizFeedback = document.getElementById('quiz-feedback');
+
+    const atributoAdicional = document.getElementById('quiz-attribute-additional');
+
+    /* ATRIBUTO E IMAGEN DE PANTALLA 5 */
+
+    const atributoScreen5 = document.getElementById('screen5-attribute');
+    const imagenScreen5 = document.getElementById('screen5-character');
+
+    const imagenesScreen5 = {
+        "El siempre en línea":
+            "https://braze-images.com/appboy/communication/assets/image_assets/images/6aff0c386167dd00ad9c3981/original.png?1795099703",
+
+        "El organizado":
+            "https://braze-images.com/appboy/communication/assets/image_assets/images/6aff0c5f7569c40092fdc11d/original.png?1795099741",
+
+        "El que va pa´ lante":
+            "https://braze-images.com/appboy/communication/assets/image_assets/images/6aff23adb2f32d00903aab2a/original.png?1795105707",
+
+        "El yo te yapeo":
+            "https://braze-images.com/appboy/communication/assets/image_assets/images/6aff22641ff0fa0093f2acbe/original.png?1795105379"
+    };
+
+    /* ATRIBUTOS DE PANTALLA 6 */
+
+    const atributoScreen6Uno =
+        document.getElementById('screen6-hidden-attribute-1');
+
+    const atributoScreen6Dos =
+        document.getElementById('screen6-hidden-attribute-2');
+
+    const screen6Overlay =
+        document.getElementById('screen6-overlay');
+
+    const screen6VisibleUno =
+        document.getElementById('screen6-attribute-1');
+
+    const screen6VisibleDos =
+        document.getElementById('screen6-attribute-2');
+
+    /* ATRIBUTOS PANTALLA 7 */
+
+    const screen7Overlay =
+        document.getElementById('screen7-overlay');
+
+    const screen7Values = [
+        document.getElementById('screen7-value-1'),
+        document.getElementById('screen7-value-2'),
+        document.getElementById('screen7-value-3'),
+        document.getElementById('screen7-value-4')
+    ];
+
+    /* CTA PANTALLA 7 */
+
+    const screen7BackCTA =
+        document.getElementById('screen7-back-cta');
+
+    const screen7ShareCTA =
+        document.getElementById('screen7-share-cta');
+
+    /* IMAGEN DE FONDO DE PANTALLA 7 */
+
+    const imagenFondoScreen7 =
+        'https://braze-images.com/appboy/communication/assets/image_assets/images/6aff3a9a574f720094ea1bd6/original.png?1795111577';
+
+    /* IMAGEN PNG GENERADA PARA COMPARTIR */
+
+    let imagenScreen7Blob = null;
+    let preparandoImagenScreen7 = false;
+
+    /*
+     * GUARDAR LOS VALORES ORIGINALES
+     * ANTES DE QUE LAS ANIMACIONES LOS MODIFIQUEN.
+     */
+
+    const resumenScreen2 =
+        atributoScreen2.querySelector('b').textContent.trim();
+
+    const resumenScreen3 =
+        atributoScreen3.querySelector('b').textContent.trim();
+
+    const resumenQuiz =
+        atributoAdicional.textContent.trim();
+
+    const resumenScreen5 =
+        atributoScreen5.textContent.trim();
+
+    let currentIndex = 0;
+    let ctaClickedScreen2 = false;
+    let casinoTimers = [];
+    let opcionElegida = null;
+
+    /* VALORES QUEMADOS */
+
+    const valoresQuemados = [
+        "Yappy",
+        "Pagos",
+        "Recarga Metro",
+        "Recarga Celular",
+        "Recarga Panapass"
+    ];
+
+    /* VALOR VERDADERO */
+
+    let valorVerdaderoQuiz = null;
+
+    function cancelarCasino() {
+        casinoTimers.forEach(timer => clearTimeout(timer));
+        casinoTimers = [];
+    }
+
+    /* MEZCLAR ALEATORIAMENTE UN ARRAY */
+
+    function mezclarArray(array) {
+        const resultado = [...array];
+
+        for (let i = resultado.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+
+            [resultado[i], resultado[j]] =
+                [resultado[j], resultado[i]];
+        }
+
+        return resultado;
+    }
+
+    /* OBTENER ATRIBUTO ADICIONAL */
+
+    function obtenerAtributoAdicional() {
+        return atributoAdicional.textContent.trim();
+    }
+
+    /* OBTENER ATRIBUTO PANTALLA 5 */
+
+    function obtenerAtributoScreen5() {
+        return atributoScreen5.textContent.trim();
+    }
+
+    /* MOSTRAR IMAGEN SEGÚN EL ATRIBUTO DE PANTALLA 5 */
+
+    function mostrarImagenScreen5() {
+
+        imagenScreen5.style.display = 'none';
+        imagenScreen5.removeAttribute('src');
+
+        const valorAtributo = obtenerAtributoScreen5();
+
+        const imagenCorrespondiente = imagenesScreen5[valorAtributo];
+
+        if (!imagenCorrespondiente) {
+            return;
+        }
+
+        imagenScreen5.src = imagenCorrespondiente;
+        imagenScreen5.style.display = 'block';
+    }
+
+    /* FUNCIONES PANTALLA 6 */
+
+    function obtenerAtributoScreen6Uno() {
+        return atributoScreen6Uno.textContent.trim();
+    }
+
+    function obtenerAtributoScreen6Dos() {
+        return atributoScreen6Dos.textContent.trim();
+    }
+
+    /* CONVERTIR PRIMER ATRIBUTO A NÚMERO */
+
+    function valorTotalScreen6() {
+
+        const texto = obtenerAtributoScreen6Uno();
+
+        const valor = Number(texto.replace(/,/g, ''));
+
+        return Number.isFinite(valor) ? valor : 0;
+    }
+
+    /* ANIMAR UN ATRIBUTO CARÁCTER POR CARÁCTER */
+
+    function formarAtributoScreen6(elemento, valor, retrasoInicial = 0) {
+
+        elemento.innerHTML = '';
+
+        const caracteres = String(valor).split('');
+
+        caracteres.forEach((caracter, index) => {
+
+            const span = document.createElement('span');
+
+            span.className = 'forming-char';
+
+            if (caracter === ' ') {
+                span.innerHTML = '&nbsp;';
+            } else {
+                span.textContent = caracter;
+            }
+
+            span.style.animationDelay =
+                (retrasoInicial + index * 0.09) + 's';
+
+            elemento.appendChild(span);
+        });
+    }
+
+    /* MOSTRAR Y ANIMAR LOS DOS ATRIBUTOS */
+
+    function mostrarAtributosScreen6() {
+
+        screen6VisibleUno.innerHTML = '';
+        screen6VisibleDos.innerHTML = '';
+
+        const valorUno = obtenerAtributoScreen6Uno();
+        const valorDos = obtenerAtributoScreen6Dos();
+
+        screen6Overlay.style.display = 'block';
+
+        formarAtributoScreen6(
+            screen6VisibleUno,
+            valorUno,
+            0
+        );
+
+        const retrasoSegundo =
+            String(valorUno).length * 0.09 + 0.35;
+
+        formarAtributoScreen6(
+            screen6VisibleDos,
+            valorDos,
+            retrasoSegundo
+        );
+    }
+
+    /* MOSTRAR RESUMEN PANTALLA 7 */
+
+    function mostrarResumenScreen7() {
+
+        screen7Values[0].textContent = resumenScreen2;
+        screen7Values[1].textContent = resumenScreen3;
+        screen7Values[2].textContent = resumenQuiz;
+        screen7Values[3].textContent = resumenScreen5;
+
+        screen7Overlay.style.display = 'block';
+
+        screen7BackCTA.style.display = 'block';
+        screen7ShareCTA.style.display = 'block';
+
+        prepararImagenScreen7();
+    }
+
+    /* CARGAR IMAGEN DE FONDO CON CORS */
+
+    function cargarImagenConCORS(url) {
+
+        return new Promise((resolve, reject) => {
+
+            const imagen = new Image();
+
+            // Es importante establecer CORS antes de asignar src.
+
+            imagen.crossOrigin = 'anonymous';
+
+            imagen.onload = () => {
+                resolve(imagen);
+            };
+
+            imagen.onerror = () => {
+                reject(
+                    new Error('No se pudo cargar la imagen de fondo. Verifica el acceso CORS.')
+                );
+            };
+
+            imagen.src = url;
+
+            // Por si el navegador ya terminó de cargarla.
+
+            if (imagen.complete && imagen.naturalWidth > 0) {
+                resolve(imagen);
+            }
+
+        });
+    }
+
+    /* DIBUJAR TEXTO CON SALTOS DE LÍNEA */
+
+    function dibujarTextoAjustado(
+        ctx,
+        texto,
+        x,
+        y,
+        anchoMaximo,
+        altoLinea
+    ) {
+
+        const palabras = String(texto).split(/\s+/);
+        const lineas = [];
+
+        let lineaActual = '';
+
+        palabras.forEach(palabra => {
+
+            const prueba = lineaActual
+                ? lineaActual + ' ' + palabra
+                : palabra;
+
+            if (ctx.measureText(prueba).width <= anchoMaximo) {
+
+                lineaActual = prueba;
+
+            } else {
+
+                if (lineaActual) {
+                    lineas.push(lineaActual);
+                }
+
+                // Si una palabra sola es demasiado larga,
+                // se divide carácter por carácter.
+
+                if (ctx.measureText(palabra).width > anchoMaximo) {
+
+                    let fragmento = '';
+
+                    for (const caracter of palabra) {
+
+                        const pruebaFragmento = fragmento + caracter;
+
+                        if (
+                            ctx.measureText(pruebaFragmento).width >
+                            anchoMaximo
+                        ) {
+                            if (fragmento) {
+                                lineas.push(fragmento);
+                            }
+
+                            fragmento = caracter;
+
+                        } else {
+
+                            fragmento = pruebaFragmento;
+                        }
+                    }
+
+                    lineaActual = fragmento;
+
+                } else {
+
+                    lineaActual = palabra;
+                }
+            }
+        });
+
+        if (lineaActual) {
+            lineas.push(lineaActual);
+        }
+
+        lineas.forEach((linea, index) => {
+
+            ctx.fillText(
+                linea,
+                x,
+                y + (index * altoLinea)
+            );
+
+        });
+    }
+
+    /* PREPARAR LA IMAGEN PNG DE LA PANTALLA 7 */
+
+    async function prepararImagenScreen7() {
+
+        if (preparandoImagenScreen7) return;
+
+        preparandoImagenScreen7 = true;
+        imagenScreen7Blob = null;
+
+        try {
+
+            // Esperar a que se carguen las fuentes.
+
+            if (document.fonts && document.fonts.ready) {
+                await document.fonts.ready;
+            }
+
+            // Cargar el fondo de pantalla 7.
+
+            const fondo = await cargarImagenConCORS(
+                imagenFondoScreen7
+            );
+
+            if (currentIndex !== 6) {
+                return;
+            }
+
+            // Crear canvas en resolución doble.
+
+            const escala = 2;
+
+            const canvas = document.createElement('canvas');
+
+            canvas.width = 330 * escala;
+            canvas.height = 600 * escala;
+
+            const ctx = canvas.getContext('2d');
+
+            if (!ctx) {
+                throw new Error('No se pudo crear el canvas');
+            }
+
+            ctx.scale(escala, escala);
+
+            /*
+             * DIBUJAR EL FONDO.
+             *
+             * Se dibuja a 330 x 600 para conservar
+             * las mismas dimensiones del diseño de captura.
+             */
+
+            ctx.drawImage(
+                fondo,
+                0,
+                0,
+                330,
+                600
+            );
+
+            /*
+             * CONFIGURACIÓN DE LOS TEXTOS.
+             *
+             * Se dibujan únicamente los cuatro valores.
+             * No se dibujan los botones de volver ni compartir.
+             */
+
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'alphabetic';
+            ctx.font = '400 18px Inter, sans-serif';
+
+            const elementos = [
+                {
+                    texto: resumenScreen2,
+                    top: 190,
+                    left: 35
+                },
+                {
+                    texto: resumenScreen3,
+                    top: 270,
+                    left: 4
+                },
+                {
+                    texto: resumenQuiz,
+                    top: 370,
+                    left: 50
+                },
+                {
+                    texto: resumenScreen5,
+                    top: 451,
+                    left: 70
+                }
+            ];
+
+            elementos.forEach(item => {
+
+                const ancho = 330 * 0.84;
+
+                const centroX = item.left + (ancho / 2);
+
+                /*
+                 * El valor comienza después del espacio
+                 * reservado para la etiqueta vacía.
+                 */
+
+                const posicionY = item.top + 22;
+
+                dibujarTextoAjustado(
+                    ctx,
+                    item.texto,
+                    centroX,
+                    posicionY,
+                    ancho,
+                    22
+                );
+
+            });
+
+            // Convertir canvas a PNG.
+
+            imagenScreen7Blob = await new Promise(
+                (resolve, reject) => {
+
+                    canvas.toBlob(blob => {
+
+                        if (blob) {
+                            resolve(blob);
+                        } else {
+                            reject(
+                                new Error('No se pudo generar el archivo PNG')
+                            );
+                        }
+
+                    }, 'image/png');
+
+                }
+            );
+
+            if (currentIndex !== 6) {
+                imagenScreen7Blob = null;
+                return;
+            }
+
+            console.log(
+                'PNG de pantalla 7 generado correctamente con fondo y cuatro atributos'
+            );
+
+        } catch (error) {
+
+            console.error(
+                'Error preparando imagen de pantalla 7:',
+                error
+            );
+
+            imagenScreen7Blob = null;
+
+        } finally {
+
+            preparandoImagenScreen7 = false;
+
+        }
+    }
+
+    /* COMPARTIR PANTALLA 7 COMO IMAGEN */
+
+    async function compartirPantalla7() {
+
+        try {
+
+            // Si todavía no está lista, intentar prepararla.
+
+            if (!imagenScreen7Blob) {
+
+                if (preparandoImagenScreen7) {
+
+                    alert(
+                        'Estamos preparando tu imagen. Espera un momento e inténtalo nuevamente.'
+                    );
+
+                    return;
+                }
+
+                await prepararImagenScreen7();
+
+                if (!imagenScreen7Blob) {
+
+                    alert(
+                        'No se pudo preparar la imagen. Verifica que el fondo permita acceso CORS e inténtalo nuevamente.'
+                    );
+
+                    return;
+                }
+            }
+
+            const archivo = new File(
+                [imagenScreen7Blob],
+                'mi-resumen-braze.png',
+                {
+                    type: 'image/png'
+                }
+            );
+
+            // COMPARTIR CON EL MENÚ NATIVO DE ANDROID O IOS.
+
+            if (
+                navigator.share &&
+                navigator.canShare &&
+                navigator.canShare({
+                    files: [archivo]
+                })
+            ) {
+
+                await navigator.share({
+
+                    files: [archivo],
+
+                    title: 'Mi resumen',
+
+                    text: '¡Mira mi resumen!'
+
+                });
+
+            } else {
+
+                // ALTERNATIVA: DESCARGAR LA IMAGEN.
+
+                const url = URL.createObjectURL(imagenScreen7Blob);
+
+                const enlace = document.createElement('a');
+
+                enlace.href = url;
+                enlace.download = 'mi-resumen-braze.png';
+
+                document.body.appendChild(enlace);
+
+                enlace.click();
+
+                enlace.remove();
+
+                setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                }, 10000);
+
+                alert(
+                    'Tu dispositivo no permite compartir la imagen directamente. Se descargó el PNG para que puedas compartirlo.'
+                );
+            }
+
+        } catch (error) {
+
+            if (error.name !== 'AbortError') {
+
+                console.error(
+                    'Error al compartir la pantalla:',
+                    error
+                );
+
+                alert(
+                    'No se pudo generar o compartir la imagen. Inténtalo nuevamente.'
+                );
+            }
+
+        }
+    }
+
+    /* VOLVER A LA PRIMERA PANTALLA */
+
+    function volverInicio() {
+        showSlide(0);
+    }
+
+    /* CREAR LAS TRES OPCIONES */
+
+    function prepararOpcionesQuiz() {
+
+        valorVerdaderoQuiz = obtenerAtributoAdicional();
+
+        if (!valoresQuemados.includes(valorVerdaderoQuiz)) {
+
+            console.error(
+                'El atributo de Braze no coincide con ninguno de los cinco valores:',
+                valorVerdaderoQuiz
+            );
+
+            quizOptions.style.display = 'none';
+
+            quizFeedback.textContent = 'No se pudo validar el atributo';
+            quizFeedback.style.display = 'flex';
+
+            return false;
+        }
+
+        const valoresFalsos = valoresQuemados.filter(
+            valor => valor !== valorVerdaderoQuiz
+        );
+
+        const dosFalsos = mezclarArray(valoresFalsos).slice(0, 2);
+
+        const tresOpciones = mezclarArray([
+            valorVerdaderoQuiz,
+            ...dosFalsos
+        ]);
+
+        quizOptions.innerHTML = '';
+
+        tresOpciones.forEach((valor, index) => {
+
+            const boton = document.createElement('button');
+
+            boton.type = 'button';
+            boton.className = 'quiz-option';
+            boton.id = 'quiz-option-' + (index + 1);
+
+            boton.dataset.correcto =
+                valor === valorVerdaderoQuiz ? 'true' : 'false';
+
+            const rectangulo = document.createElement('span');
+
+            rectangulo.className = 'quiz-rectangle';
+            rectangulo.textContent = valor;
+
+            boton.appendChild(rectangulo);
+
+            boton.addEventListener('click', function() {
+                seleccionarOpcion(index + 1);
+            });
+
+            quizOptions.appendChild(boton);
+        });
+
+        return true;
+    }
+
+    /* CREAR TRAGAMONEDAS */
+
+    function crearCasino(valorFinal) {
+
+        cancelarCasino();
+
+        const casino = document.createElement('div');
+
+        casino.className = currentIndex === 2
+            ? 'casino-container casino-container-screen3'
+            : 'casino-container';
+
+        const caracteres = valorFinal.split('');
+        const alturaDigito = 72;
+
+        caracteres.forEach((caracter, index) => {
+
+            if (/[0-9]/.test(caracter)) {
+
+                const reel = document.createElement('div');
+
+                reel.className = currentIndex === 2
+                    ? 'casino-reel casino-reel-screen3'
+                    : 'casino-reel';
+
+                const strip = document.createElement('div');
+                strip.className = 'casino-strip';
+
+                const cantidadVueltas = 25;
+
+                for (let i = 0; i < cantidadVueltas; i++) {
+
+                    const digit = document.createElement('div');
+
+                    digit.className = 'casino-digit' +
+                        (currentIndex === 2 ? ' casino-digit-screen3' : '');
+
+                    digit.textContent = Math.floor(Math.random() * 10);
+
+                    strip.appendChild(digit);
+                }
+
+                const resultado = document.createElement('div');
+
+                resultado.className = 'casino-digit' +
+                    (currentIndex === 2 ? ' casino-digit-screen3' : '');
+
+                resultado.textContent = caracter;
+
+                strip.appendChild(resultado);
+                reel.appendChild(strip);
+                casino.appendChild(reel);
+
+                reel.dataset.finalPosition =
+                    cantidadVueltas * alturaDigito;
+
+            } else {
+
+                const simbolo = document.createElement('div');
+
+                simbolo.className = 'casino-digit';
+                simbolo.style.width = 'auto';
+                simbolo.style.padding = '0 4px';
+                simbolo.textContent = caracter;
+
+                casino.appendChild(simbolo);
+            }
+        });
+
+        return casino;
+    }
+
+    /* ANIMAR TRAGAMONEDAS */
+
+    function iniciarCasino(casino) {
+
+        const reels = casino.querySelectorAll('.casino-reel');
+
+        reels.forEach((reel, index) => {
+
+            const strip = reel.querySelector('.casino-strip');
+
+            const posicionFinal =
+                Number(reel.dataset.finalPosition);
+
+            const timer = setTimeout(() => {
+
+                strip.style.transform =
+                    `translateY(-${posicionFinal}px)`;
+
+            }, index * 180);
+
+            casinoTimers.push(timer);
+        });
+    }
+
+    /* PANTALLA 2 */
+
+    function mostrarAtributo() {
+
+        if (ctaClickedScreen2) return;
+
+        ctaClickedScreen2 = true;
+
+        ctaScreen2.style.display = 'none';
+
+        const valorFinal =
+            atributoScreen2.querySelector('b').textContent.trim();
+
+        const casino = crearCasino(valorFinal);
+
+        atributoScreen2.innerHTML = '';
+        atributoScreen2.appendChild(casino);
+
+        atributoScreen2.style.display = 'block';
+
+        requestAnimationFrame(() => iniciarCasino(casino));
+
+        document.querySelectorAll('.button').forEach(button => {
+            button.style.display = 'block';
+        });
+    }
+
+    function resetPantalla2() {
+        cancelarCasino();
+        atributoScreen2.innerHTML = `<b>${resumenScreen2}</b>`;
+    }
+
+    function resetPantalla3() {
+        cancelarCasino();
+        atributoScreen3.innerHTML = `<b>${resumenScreen3}</b>`;
+    }
+
+    /* SELECCIÓN Y MENSAJE */
+
+    function seleccionarOpcion(opcion) {
+
+        opcionElegida = opcion;
+
+        const botones = document.querySelectorAll('.quiz-option');
+
+        botones.forEach(boton => {
+
+            boton.classList.remove('wrong', 'correct');
+
+            const esCorrecto =
+                boton.dataset.correcto === 'true';
+
+            if (esCorrecto) {
+                boton.classList.add('correct');
+            }
+        });
+
+        const botonSeleccionado =
+            document.getElementById('quiz-option-' + opcion);
+
+        const respuestaCorrecta =
+            botonSeleccionado.dataset.correcto === 'true';
+
+        quizFeedback.classList.remove(
+            'correct-feedback',
+            'wrong-feedback'
+        );
+
+        if (!respuestaCorrecta) {
+
+            botonSeleccionado.classList.add('wrong');
+
+            quizFeedback.textContent = '¿Te lo esperabas?';
+
+            quizFeedback.classList.add('wrong-feedback');
+
+        } else {
+
+            quizFeedback.textContent = '¡Acertaste!';
+
+            quizFeedback.classList.add('correct-feedback');
+        }
+
+        quizFeedback.style.display = 'flex';
+    }
+
+    function resetOpcionesQuiz() {
+
+        opcionElegida = null;
+
+        quizOptions.innerHTML = '';
+
+        quizFeedback.textContent = '';
+        quizFeedback.style.display = 'none';
+
+        quizFeedback.classList.remove(
+            'correct-feedback',
+            'wrong-feedback'
+        );
+    }
+
+    /* VALOR DEL ATRIBUTO DE PANTALLA 4 */
+
+    function valorTotalScreen4() {
+
+        const texto = document.getElementById('braze-overlay-3')
+            .querySelector('b').textContent.trim();
+
+        const valor = Number(texto.replace(/,/g, ''));
+
+        return Number.isFinite(valor) ? valor : 0;
+    }
+
+    /* NAVEGACIÓN */
+
+    function showSlide(index) {
+
+        const totalImages = images.length;
+
+        // Si pantalla 4 tiene 0, se omite y se muestra pantalla 5.
+
+        if (index === 3 && valorTotalScreen4() <= 0) {
+            index = 4;
+        }
+
+        // Si el primer atributo de pantalla 6 es 0,
+        // se omite la pantalla 6.
+
+        if (index === 5 && valorTotalScreen6() <= 0) {
+            index = 6;
+        }
+
+        if (index >= totalImages) {
+            currentIndex = 0;
+        } else if (index < 0) {
+            currentIndex = totalImages - 1;
+        } else {
+            currentIndex = index;
+        }
+
+        cancelarCasino();
+
+        // Invalidar imagen anterior del resumen.
+
+        imagenScreen7Blob = null;
+
+        /*
+         * Desactivar temporalmente la transición para saltar
+         * directamente a la pantalla correspondiente.
+         */
+
+        carouselImages.style.transition = 'none';
+
+        carouselImages.style.transform =
+            `translateX(${-currentIndex * 100}%)`;
+
+        requestAnimationFrame(() => {
+            carouselImages.style.transition =
+                'transform .5s ease-in-out';
+        });
+
+        document.querySelectorAll('.braze-overlay').forEach(el => {
+            el.style.display = 'none';
+        });
+
+        ctaScreen2.style.display = 'none';
+        quizOptions.style.display = 'none';
+        quizFeedback.style.display = 'none';
+
+        // Ocultar imagen de pantalla 5 al cambiar de pantalla.
+
+        imagenScreen5.style.display = 'none';
+        imagenScreen5.removeAttribute('src');
+
+        // Ocultar atributos de pantalla 6 al cambiar de pantalla.
+
+        screen6Overlay.style.display = 'none';
+        screen6VisibleUno.innerHTML = '';
+        screen6VisibleDos.innerHTML = '';
+
+        // Ocultar resumen y CTA de pantalla 7.
+
+        screen7Overlay.style.display = 'none';
+
+        screen7BackCTA.style.display = 'none';
+        screen7ShareCTA.style.display = 'none';
+
+        document.querySelectorAll('.button').forEach(button => {
+            button.style.display = 'block';
+        });
+
+        /* PANTALLA 2 */
+
+        if (currentIndex === 1) {
+
+            ctaClickedScreen2 = false;
+
+            resetPantalla2();
+
+            ctaScreen2.style.display = 'block';
+
+            document.querySelectorAll('.button').forEach(button => {
+                button.style.display = 'none';
+            });
+        }
+
+        /* PANTALLA 3 */
+
+        if (currentIndex === 2) {
+
+            resetPantalla3();
+            resetOpcionesQuiz();
+
+            const timerPantalla3 = setTimeout(() => {
+
+                if (currentIndex !== 2) return;
+
+                const valorFinal3 =
+                    atributoScreen3.querySelector('b').textContent.trim();
+
+                const casino3 = crearCasino(valorFinal3);
+
+                atributoScreen3.innerHTML = '';
+                atributoScreen3.appendChild(casino3);
+
+                atributoScreen3.style.display = 'block';
+
+                const opcionesValidas = prepararOpcionesQuiz();
+
+                if (opcionesValidas) {
+                    quizOptions.style.display = 'flex';
+                }
+
+                requestAnimationFrame(() => iniciarCasino(casino3));
+
+            }, 1000);
+
+            casinoTimers.push(timerPantalla3);
+        }
+
+        /* PANTALLA 4 - EFECTO WRAPPED */
+
+        if (currentIndex === 3) {
+
+            const atributoScreen4 =
+                document.getElementById('braze-overlay-3');
+
+            atributoScreen4.style.display = 'none';
+
+            atributoScreen4.classList.remove('wrapped-animation');
+
+            const timerWrapped = setTimeout(() => {
+
+                if (currentIndex !== 3) return;
+
+                atributoScreen4.style.display = 'flex';
+
+                void atributoScreen4.offsetWidth;
+
+                atributoScreen4.classList.add('wrapped-animation');
+
+            }, 3000);
+
+            casinoTimers.push(timerWrapped);
+        }
+
+        /* PANTALLA 5 - IMAGEN DINÁMICA */
+
+        if (currentIndex === 4) {
+
+            mostrarImagenScreen5();
+        }
+
+        /* PANTALLA 6 - ANIMACIÓN DE FORMACIÓN */
+
+        if (currentIndex === 5) {
+
+            screen6VisibleUno.innerHTML = '';
+            screen6VisibleDos.innerHTML = '';
+
+            screen6Overlay.style.display = 'none';
+
+            const timerScreen6 = setTimeout(() => {
+
+                if (currentIndex !== 5) return;
+
+                mostrarAtributosScreen6();
+
+            }, 500);
+
+            casinoTimers.push(timerScreen6);
+        }
+
+        /* PANTALLA 7 - RESUMEN DE ATRIBUTOS */
+
+        if (currentIndex === 6) {
+
+            screen7Overlay.style.display = 'none';
+
+            const timerScreen7 = setTimeout(() => {
+
+                if (currentIndex !== 6) return;
+
+                mostrarResumenScreen7();
+
+            }, 1000);
+
+            casinoTimers.push(timerScreen7);
+        }
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+
+        // Si pantalla 4 está omitida, desde pantalla 5 se regresa a pantalla 3.
+
+        if (currentIndex === 4 && valorTotalScreen4() <= 0) {
+            showSlide(2);
+        } else {
+            showSlide(currentIndex - 1);
+        }
+    }
+
+    showSlide(0);
+
+</script>
+
+</body>
+</html>
 
 
 
