@@ -15876,6 +15876,41 @@ screen7Discover.style.display = 'block';
 
 </html>
 
+24-11-4
+
+function prevSlide() {
+
+    // Desde pantalla 8, omitir pantalla 7 si su primer atributo es 0.
+    if (currentIndex === 7) {
+        if (valorTotalScreen7() <= 0) {
+
+            // Si pantalla 6 también tiene 0, regresar a pantalla 5.
+            if (valorTotalScreen6() <= 0) {
+                showSlide(4);
+            } else {
+                showSlide(5);
+            }
+
+        } else {
+            showSlide(6);
+        }
+        return;
+    }
+
+    // Si pantalla 6 tiene 0, al retroceder regresar a pantalla 5.
+    if (currentIndex === 6 && valorTotalScreen6() <= 0) {
+        showSlide(4);
+        return;
+    }
+
+    // Si pantalla 4 está omitida, desde pantalla 5 se regresa a pantalla 3.
+    if (currentIndex === 4 && valorTotalScreen4() <= 0) {
+        showSlide(2);
+    } else {
+        showSlide(currentIndex - 1);
+    }
+}
+
 
 
 
