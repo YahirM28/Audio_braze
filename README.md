@@ -14148,6 +14148,177 @@ body {
 </html>
 
 
+23/11
+
+<!-- PANTALLA 8 -->
+
+<div id="screen8-overlay" class="screen8-overlay">
+
+    <!-- ATRIBUTO SUPERIOR -->
+
+    <div id="screen8-attribute-1" class="screen8-attribute"></div>
+
+    <!-- ATRIBUTO INFERIOR -->
+
+    <div id="screen8-attribute-2" class="screen8-attribute"></div>
+
+    <!-- BOTÓN DESCUBRIR -->
+
+    <button
+        id="screen8-discover"
+        class="screen8-discover"
+        onclick="mostrarAtributoScreen8Dos()">
+
+        DESCUBRIR
+
+    </button>
+
+</div>
+
+--
+
+
+/* PANTALLA 8 */
+
+.screen8-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 13;
+    display: none;
+    pointer-events: none;
+}
+
+.screen8-attribute {
+    position: absolute;
+    left: 8%;
+    width: 84%;
+    min-height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 45px;
+    font-weight: 900;
+    color: #004c97;
+}
+
+#screen8-attribute-1 {
+    top: 28%;
+}
+
+#screen8-attribute-2 {
+    top: 60%;
+    font-size: 30px;
+}
+
+.screen8-discover {
+    position: absolute;
+    top: 72%;
+    left: 25%;
+    width: 50%;
+    min-height: 42px;
+    border: 2px solid white;
+    border-radius: 20px;
+    background: #00A3E1;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    pointer-events: auto;
+}
+
+---
+
+/* ATRIBUTOS PANTALLA 8 */
+
+const atributoScreen8Uno =
+    document.getElementById('screen8-hidden-attribute-1');
+
+const atributoScreen8Dos =
+    document.getElementById('screen8-hidden-attribute-2');
+
+const screen8Overlay =
+    document.getElementById('screen8-overlay');
+
+const screen8VisibleUno =
+    document.getElementById('screen8-attribute-1');
+
+const screen8VisibleDos =
+    document.getElementById('screen8-attribute-2');
+
+const screen8Discover =
+    document.getElementById('screen8-discover');
+
+    --
+
+    /* PANTALLA 8 */
+
+function mostrarAtributosScreen8() {
+
+    screen8VisibleUno.innerHTML = '';
+    screen8VisibleDos.innerHTML = '';
+
+    screen8Discover.style.display = 'block';
+
+    screen8Overlay.style.display = 'block';
+
+    const valorUno =
+        atributoScreen8Uno.textContent.trim();
+
+    formarAtributoScreen6(
+        screen8VisibleUno,
+        valorUno,
+        0
+    );
+}
+
+/* MOSTRAR SEGUNDO ATRIBUTO AL HACER CLIC */
+
+function mostrarAtributoScreen8Dos() {
+
+    screen8Discover.style.display = 'none';
+
+    const valorDos =
+        atributoScreen8Dos.textContent.trim();
+
+    formarAtributoScreen6(
+        screen8VisibleDos,
+        valorDos,
+        0
+    );
+}
+
+
+--
+
+screen8Overlay.style.display = 'none';
+
+screen8VisibleUno.innerHTML = '';
+screen8VisibleDos.innerHTML = '';
+
+screen8Discover.style.display = 'block';
+
+--
+
+/* PANTALLA 8 */
+
+if (currentIndex === 7) {
+
+    screen8Overlay.style.display = 'none';
+
+    const timerScreen8 = setTimeout(() => {
+
+        if (currentIndex !== 7) return;
+
+        mostrarAtributosScreen8();
+
+    }, 500);
+
+    casinoTimers.push(timerScreen8);
+}
+
 
 
 
