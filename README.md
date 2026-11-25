@@ -15911,6 +15911,386 @@ function prevSlide() {
     }
 }
 
+25- 11
+
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Así se contó tu historia</title>
+
+  {% assign visitas = custom_attribute.visitas | default: 125 %}
+  {% assign transacciones = custom_attribute.transacciones | default: 348 %}
+  {% assign transaccion_top = custom_attribute.transaccion_top | default: "Recarga de celular" %}
+  {% assign perfil_anual = custom_attribute.perfil_anual | default: "Una persona organizada" %}
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: rgba(0,0,0,0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+
+    .inapp-container {
+      position: relative;
+      width: 340px;
+      height: 600px;
+      max-width: 100vw;
+      overflow: hidden;
+      background: #D9EEFF;
+      border-radius: 8px;
+    }
+
+    /* FONDO DECORATIVO 2026 */
+
+    .year-pattern {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      align-content: space-around;
+      justify-content: space-around;
+      pointer-events: none;
+      z-index: 0;
+      transform: rotate(-3deg) scale(1.08);
+    }
+
+    .year-pattern span {
+      font-size: 55px;
+      font-weight: 900;
+      color: #A9D0F2;
+      opacity: 0.28;
+      line-height: 1.15;
+      padding: 0 3px;
+    }
+
+    /* ENCABEZADO */
+
+    .header-shape {
+      position: absolute;
+      top: 85px;
+      left: 51px;
+      width: 240px;
+      height: 110px;
+      background: #00A6DB;
+      border-radius: 42px 25px 0 0;
+      transform: rotate(-5deg);
+      z-index: 1;
+    }
+
+    .header-shadow {
+      position: absolute;
+      top: 92px;
+      left: 62px;
+      width: 237px;
+      height: 105px;
+      background: #00549B;
+      border-radius: 38px 25px 0 0;
+      transform: rotate(4deg);
+      z-index: 0;
+    }
+
+    .header-title {
+      position: absolute;
+      top: 111px;
+      left: 50px;
+      width: 240px;
+      text-align: center;
+      color: white;
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.05;
+      z-index: 3;
+    }
+
+    /* ESTRELLA DECORATIVA */
+
+    .star-decoration {
+      position: absolute;
+      top: 48px;
+      right: -5px;
+      width: 78px;
+      height: 95px;
+      background: white;
+      clip-path: polygon(35% 0,100% 0,100% 100%,35% 100%,0 50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 4;
+    }
+
+    .star-decoration svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    /* FLECHAS DECORATIVAS */
+
+    .arrow-orange {
+      position: absolute;
+      top: 145px;
+      left: 30px;
+      width: 65px;
+      z-index: 4;
+    }
+
+    .arrow-green {
+      position: absolute;
+      top: 202px;
+      right: 12px;
+      width: 65px;
+      z-index: 4;
+    }
+
+    /* TARJETAS */
+
+    .cards-container {
+      position: absolute;
+      top: 285px;
+      left: 13px;
+      width: 314px;
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+      z-index: 5;
+    }
+
+    .info-card {
+      position: relative;
+      width: 100%;
+      height: 73px;
+      border-radius: 34px;
+      background: #07509A;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 25px;
+      box-shadow: 0 2px 3px rgba(0,0,0,0.18);
+    }
+
+    .info-card::after {
+      content: "";
+      position: absolute;
+      width: 120%;
+      height: 48px;
+      left: -10%;
+      bottom: -30px;
+      background: #0065A8;
+      border-radius: 50% 50% 0 0;
+      transform: rotate(-3deg);
+      z-index: 0;
+    }
+
+    .card-green {
+      border: 4px solid #83C329;
+    }
+
+    .card-cyan {
+      border: 4px solid #55D4F4;
+    }
+
+    .card-orange {
+      border: 4px solid #FF7900;
+    }
+
+    .card-turquoise {
+      border: 4px solid #21B8C1;
+    }
+
+    .card-label {
+      position: relative;
+      z-index: 2;
+      color: white;
+      font-size: 19px;
+      font-weight: 700;
+      line-height: 1.15;
+      max-width: 58%;
+    }
+
+    .card-value {
+      position: relative;
+      z-index: 2;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      text-align: right;
+      max-width: 48%;
+      overflow-wrap: anywhere;
+    }
+
+    .card-value.long {
+      font-size: 15px;
+    }
+
+    /* BOTÓN DE CIERRE */
+
+    .close-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 27px;
+      height: 27px;
+      border: none;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      color: #07509A;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="inapp-container">
+
+    <!-- FONDO 2026 -->
+
+    <div class="year-pattern">
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+      <span>2026</span>
+    </div>
+
+    <!-- ENCABEZADO -->
+
+    <div class="header-shadow"></div>
+    <div class="header-shape"></div>
+
+    <div class="header-title">
+      Así se contó<br>
+      tu historia
+    </div>
+
+    <!-- ESTRELLA -->
+
+    <div class="star-decoration">
+      <svg viewBox="0 0 100 100" fill="none"
+           xmlns="http://www.w3.org/2000/svg">
+        <path d="M50 4 L58 35 L88 18 L70 46 L98 51
+                 L70 59 L87 87 L58 69 L50 98
+                 L42 69 L13 87 L30 59 L2 51
+                 L30 46 L13 18 L42 35 Z"
+              stroke="#07509A" stroke-width="3"/>
+        <path d="M50 27 L55 43 L72 43 L58 53
+                 L63 70 L50 60 L37 70 L42 53
+                 L28 43 L45 43 Z"
+              fill="#07509A"/>
+      </svg>
+    </div>
+
+    <!-- FLECHA NARANJA -->
+
+    <svg class="arrow-orange" viewBox="0 0 75 40"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 8 Q42 8 66 35 Q45 5 36 17 Q30 25 45 31"
+            fill="none" stroke="#FF7900"
+            stroke-width="5" stroke-linecap="round"/>
+    </svg>
+
+    <!-- FLECHA VERDE -->
+
+    <svg class="arrow-green" viewBox="0 0 75 40"
+         xmlns="http://www.w3.org/2000/svg">
+      <path d="M5 8 Q42 8 66 35 Q45 5 36 17 Q30 25 45 31"
+            fill="none" stroke="#80C52C"
+            stroke-width="5" stroke-linecap="round"/>
+    </svg>
+
+    <!-- TARJETAS DE INFORMACIÓN -->
+
+    <div class="cards-container">
+
+      <!-- TARJETA 1 -->
+
+      <div class="info-card card-green">
+        <div class="card-label">
+          Nos vimos
+        </div>
+
+        <div class="card-value">
+          {{visitas}} veces
+        </div>
+      </div>
+
+      <!-- TARJETA 2 -->
+
+      <div class="info-card card-cyan">
+        <div class="card-label">
+          Hiciste
+        </div>
+
+        <div class="card-value">
+          {{transacciones}} transacciones
+        </div>
+      </div>
+
+      <!-- TARJETA 3 -->
+
+      <div class="info-card card-orange">
+        <div class="card-label">
+          Tu transacción<br>
+          #1 fue
+        </div>
+
+        <div class="card-value long">
+          {{transaccion_top}}
+        </div>
+      </div>
+
+      <!-- TARJETA 4 -->
+
+      <div class="info-card card-turquoise">
+        <div class="card-label">
+          Tu año dice<br>
+          que eres
+        </div>
+
+        <div class="card-value long">
+          {{perfil_anual}}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CERRAR IN-APP -->
+
+    <button class="close-button"
+      onclick="brazeBridge.logClick('Close Message'); brazeBridge.closeMessage();">
+      ×
+    </button>
+
+  </div>
+
+</body>
+</html>
+
+
 
 
 
