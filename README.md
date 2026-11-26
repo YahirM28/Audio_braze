@@ -19703,6 +19703,44 @@ function mostrarAtributoScreen7Dos() {
     }
 }
 
+26-11- 2
+/* MOSTRAR SEGUNDO ATRIBUTO AL HACER CLIC */
+function mostrarAtributoScreen7Dos() {
+    screen7Discover.style.display = 'none';
+
+    const valorDos = atributoScreen7Dos.textContent.trim();
+    const partes = valorDos.split(/\s+y\s+/i);
+
+    screen7VisibleDos.innerHTML = '';
+
+    if (partes.length === 2) {
+        const primeraLinea = document.createElement('div');
+        const segundaLinea = document.createElement('div');
+
+        screen7VisibleDos.appendChild(primeraLinea);
+        screen7VisibleDos.appendChild(segundaLinea);
+
+        formarAtributoScreen6(
+            primeraLinea,
+            partes[0] + ' y',
+            0
+        );
+
+        formarAtributoScreen6(
+            segundaLinea,
+            partes[1],
+            (partes[0].length + 2) * 0.09 + 0.2
+        );
+
+    } else {
+        formarAtributoScreen6(
+            screen7VisibleDos,
+            valorDos,
+            0
+        );
+    }
+}
+
 
 
 
