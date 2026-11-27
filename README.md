@@ -26247,6 +26247,306 @@ screen7Discover.style.display = 'block';
 
 </html>
 
+27 -11 
+
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Mensaje In-App</title>
+
+<style>
+
+body {
+    margin: 0;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+.inapp-container {
+    position: relative;
+    width: 330px;
+    height: 600px;
+    background-image: url('https://braze-images.com/appboy/communication/assets/image_assets/images/6b0994c288374e008bc64974/original.jpg?1795790017');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* BOTÓN CERRAR */
+
+.close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 28px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* OPCIONES DE RESPUESTA */
+
+.opcion {
+    position: absolute;
+    top: 69%;
+    height: 15%;
+    width: 27%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.opcion1 {
+    left: 7%;
+}
+
+.opcion2 {
+    left: 36.5%;
+}
+
+.opcion3 {
+    left: 66%;
+}
+
+/* CTA SOLICITAR MI FUTUYA */
+
+.cta-hotspot-solicitar {
+    position: absolute;
+    left: 5%;
+    top: 84%;
+    width: 42%;
+    height: 7%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: none;
+    z-index: 3;
+}
+
+/* CTA CONOCE MÁS */
+
+.cta-hotspot-conoce {
+    position: absolute;
+    left: 53%;
+    top: 84%;
+    width: 42%;
+    height: 7%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: none;
+    z-index: 3;
+}
+
+.img_flo2 {
+    position: absolute;
+    bottom: 150px;
+    width: 36%;
+    height: 155px;
+    right: 105px;
+    overflow: visible;
+}
+
+.img_flo4 {
+    position: absolute;
+    bottom: 150px;
+    width: 36%;
+    height: 140px;
+    right: 210px;
+    overflow: visible;
+}
+
+.img_flo6 {
+    position: absolute;
+    bottom: 150px;
+    width: 36%;
+    height: 167px;
+    right: 0px;
+    overflow: visible;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="inapp-container" id="inapp">
+
+    <!-- CERRAR IN-APP -->
+
+    <button class="close-button"
+        onclick="brazeBridge.logClick('Close Message'); brazeBridge.closeMessage()">
+        X
+    </button>
+
+    <!-- OPCIÓN 1: $30 -->
+
+    <button class="opcion opcion1"
+        onclick="mostrarPantalla(1)">
+    </button>
+
+    <!-- OPCIÓN 2: $50 -->
+
+    <button class="opcion opcion2"
+        onclick="mostrarPantalla(2)">
+    </button>
+
+    <!-- OPCIÓN 3: $65 -->
+
+    <button class="opcion opcion3"
+        onclick="mostrarPantalla(3)">
+    </button>
+
+    <!-- CTA SOLICITAR MI FUTUYA -->
+
+    <a href=""
+       class="cta-hotspot-solicitar"
+       id="cta-solicitar"
+       onclick="return registrarCTA(event, this, '3', 'body_clic_solicitar_mi_futuya')">
+    </a>
+
+    <!-- CTA CONOCE MÁS -->
+
+    <a href=""
+       class="cta-hotspot-conoce"
+       id="cta-conoce"
+       onclick="return registrarCTA(event, this, '4', 'body_clic_conoce_mas')">
+    </a>
+
+</div>
+
+<script>
+
+/* URL DE LAS 3 PANTALLAS */
+
+/* PANTALLA $30 */
+
+var imagen1 = 'https://braze-images.com/appboy/communication/assets/image_assets/images/6b09955bcb5379008bf4e3ed/original.jpg?1795790170';
+
+/* PANTALLA $50 */
+
+var imagen2 = 'https://braze-images.com/appboy/communication/assets/image_assets/images/6b0995842fb276008da04be2/original.jpg?1795790211';
+
+/* PANTALLA $65 */
+
+var imagen3 = 'https://braze-images.com/appboy/communication/assets/image_assets/images/6b09959924f364008b1cd5f9/original.jpg?1795790233';
+
+
+/* IDENTIFICADOR DEL IN-APP */
+
+var inappId = 'FUTUYA-futuya-M-mix_Proactivo2NoviembreNBA_202611_16-30';
+
+
+/* MOSTRAR PANTALLA */
+
+function mostrarPantalla(opcion) {
+
+    var contenedor = document.getElementById('inapp');
+
+    var ctaSolicitar = document.getElementById('cta-solicitar');
+
+    var ctaConoce = document.getElementById('cta-conoce');
+
+
+    /* OCULTAR LAS TRES OPCIONES */
+
+    document.querySelectorAll('.opcion').forEach(function(boton) {
+        boton.style.display = 'none';
+    });
+
+
+    /* CAMBIAR IMAGEN SEGÚN OPCIÓN */
+
+    if (opcion === 1) {
+
+        contenedor.style.backgroundImage = "url('" + imagen1 + "')";
+
+        brazeBridge.logClick('0');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: inappId,
+            action: 'seleccion_opcion_30'
+        });
+
+    } else if (opcion === 2) {
+
+        contenedor.style.backgroundImage = "url('" + imagen2 + "')";
+
+        brazeBridge.logClick('1');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: inappId,
+            action: 'seleccion_opcion_50'
+        });
+
+    } else if (opcion === 3) {
+
+        contenedor.style.backgroundImage = "url('" + imagen3 + "')";
+
+        brazeBridge.logClick('2');
+
+        brazeBridge.logCustomEvent('Interaccion', {
+            inapp_id: inappId,
+            action: 'seleccion_opcion_65'
+        });
+
+    }
+
+
+    /* MOSTRAR LOS DOS CTA */
+
+    ctaSolicitar.style.display = 'block';
+
+    ctaConoce.style.display = 'block';
+
+}
+
+
+/* REGISTRAR CLIC DE CADA CTA */
+
+function registrarCTA(event, elemento, clickId, action) {
+
+    brazeBridge.logClick(clickId);
+
+    brazeBridge.logCustomEvent('Interaccion', {
+        inapp_id: inappId,
+        action: action
+    });
+
+    /* SI EL ENLACE ESTÁ VACÍO, NO NAVEGAR */
+
+    if (!elemento.getAttribute('href')) {
+        event.preventDefault();
+        return false;
+    }
+
+    return true;
+
+}
+
+</script>
+
+</body>
+</html>
+```
  
 
  
